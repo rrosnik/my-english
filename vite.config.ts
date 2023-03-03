@@ -7,5 +7,5 @@ export default defineConfig({
   server: {
     host: true
   },
-  base:"my-english"
+  base:"/my-english"
 })
