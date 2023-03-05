@@ -1,80 +1,146 @@
-import React from 'react'
+import React, { useEffect } from 'react';
+import 'firebase/compat/auth';
+import { auth, firebaseAuth } from "../../firebase";
+import { Button, Card, Container, Form } from 'react-bootstrap';
+
 import { Formik } from 'formik';
-import { firebaseAuth, auth } from "../../firebase";
+import * as yup from "yup";
+
+import "./index.scss";
+import { store } from '../../redux/store';
+import actions from '../../redux/actions';
+import apis from '../../apis';
+import { UserType } from '../../redux/reducers/userReducer';
+import { Link } from 'react-router-dom';
+
+const LoginValidationSchema = yup.object({
+    email: yup.string().email("The email is invalid").required("Email is required!"),
+    password: yup.string().required("Password is required!"),
+    displayName: yup.string().required("Display Name is required!")
+});
+
 
 const SignupPage = () => {
 
-    firebaseAuth
-        .createUserWithEmailAndPassword(auth, "reza3ker372@gmail.com", "3321910764")
-        .then((credential: firebaseAuth.UserCredential) => {
-            console.log('credential', credential)
-        })
-        .catch((error) => {
-
-        });
-
-
-
     return (
-        <div>
-            <Formik
-                initialValues={{ persian: '', persianCore: '', english: '', englishCore: '' }}
-                onSubmit={(values, { setSubmitting, resetForm }) => {
-                    // addToExpressions(values as EnglishCard);
-                    resetForm();
-                }}
-            >
-                {({
-                    values,
-                    errors,
-                    touched,
-                    handleChange,
-                    handleBlur,
-                    handleSubmit,
-                    handleReset,
-                    isSubmitting,
-                }) => (
-                    <form onSubmit={handleSubmit}>
-                        <h3>Sign Up</h3>
-                        <div className="mb-3">
-                            <label>First name</label>
-                            <input
-                                type="text"
-                                className="form-control"
-                                placeholder="First name"
-                            />
-                        </div>
-                        <div className="mb-3">
-                            <label>Last name</label>
-                            <input type="text" className="form-control" placeholder="Last name" />
-                        </div>
-                        <div className="mb-3">
-                            <label>Email address</label>
-                            <input
-                                type="email"
-                                className="form-control"
-                                placeholder="Enter email"
-                            />
-                        </div>
-                        <div className="mb-3">
-                            <label>Password</label>
-                            <input
-                                type="password"
-                                className="form-control"
-                                placeholder="Enter password"
-                            />
-                        </div>
-                        <div className="d-grid">
-                            <button type="submit" className="btn btn-primary">
-                                Sign Up
-                            </button>
-                        </div>
-                        <p className="forgot-password text-right">
-                            Already registered <a href="/sign-in">sign in?</a>
-                        </p>
-                    </form>
-                )}
-            </Formik>
+        <div className='page sign-in-page'>
+            <Container>
+                <Card className="sign-in-pannel">
+                    <Card.Header>
+                        <h1>Sign In</h1>
+                        <p className='text-muted mb-0'>Hi Dude, enjoy here</p>
+                    </Card.Header>
+                    <Card.Body>
+                        <Formik
+                            initialValues={{
+                                message: '',
+                                email: '',
+                                password: '',
+                                displayName: '',
+                            }}
+                            onSubmit={(values, { resetForm, setFieldError }) => {
+                                apis.auth.createUser(values.displayName, values.email, values.password)
+                                    .then((user: UserType) => {
+                                        apis.auth.userSignedIn(user);
+                                    })
+                                    .catch(error => {
+                                        console.log({ error });
+                                        switch (error.code) {
+                                            case "auth/invalid-email":
+                                                setFieldError("email", "You cannot use this email");
+                                                break;
+                                            case "auth/user-not-found":
+                                                setFieldError("email", "Email not found");
+                                                break;
+                                            case "auth/wrong-password":
+                                                setFieldError("password", "Password is incorrect");
+                                                break;
+                                            case "auth/too-many-requests":
+                                                setFieldError("message", error.message);
+                                                break;
+                                        }
+                                    });
+                            }}
+                            validationSchema={LoginValidationSchema}
+                        >
+                            {({
+                                values,
+                                errors,
+                                touched,
+                                handleChange,
+                                handleBlur,
+                                handleSubmit,
+                                isSubmitting,
+                            }) => (
+                                <Form onSubmit={handleSubmit} noValidate >
+                                    <Form.Text className="text-danger">
+                                        {errors.message}
+                                    </Form.Text>
+                                    <Form.Group className="mb-3">
+                                        <Form.Label>Password</Form.Label>
+                                        <Form.Control
+                                            className=""
+                                            type="displayName"
+                                            placeholder="displayName"
+                                            name="displayName"
+                                            value={values.displayName}
+                                            onChange={handleChange}
+                                            isInvalid={touched.displayName && !!errors.displayName}
+                                        />
+                                        {<Form.Control.Feedback type="invalid">
+                                            {errors.displayName}
+                                        </Form.Control.Feedback>}
+                                    </Form.Group>
+                                    <Form.Group className="mb-3">
+                                        <Form.Label>Email address</Form.Label>
+                                        <Form.Control
+                                            placeholder="Enter email"
+                                            name="email"
+                                            value={values.email}
+                                            onChange={handleChange}
+                                            isInvalid={touched.email && !!errors.email}
+                                            inputMode="email"
+                                            autoComplete="email"
+                                        />
+                                        <Form.Control.Feedback type="valid">
+                                            {errors.email}
+                                        </Form.Control.Feedback>
+                                        <Form.Control.Feedback type="invalid">
+                                            {errors.email}
+                                        </Form.Control.Feedback>
+
+                                    </Form.Group>
+
+                                    <Form.Group className="mb-3">
+                                        <Form.Label>Password</Form.Label>
+                                        <Form.Control
+                                            className=""
+                                            type="password"
+                                            placeholder="Password"
+                                            name="password"
+                                            value={values.password}
+                                            onChange={handleChange}
+                                            isInvalid={touched.password && !!errors.password}
+                                        />
+                                        {<Form.Control.Feedback type="invalid">
+                                            {errors.password}
+                                        </Form.Control.Feedback>}
+                                    </Form.Group>
+
+                                    <Button variant="primary" className="w-100" type="submit">
+                                        Sign Up
+                                    </Button>
+                                </Form>
+                            )}
+                        </Formik>
+                        <Form.Text className="text-muted d-block text-center mt-4">
+                            Do you already ahve an account? <Link to="/sign-in">Sign In</Link>
+                        </Form.Text>
+                    </Card.Body>
+
+                </Card>
+
+            </Container>
         </div>
     )
 }

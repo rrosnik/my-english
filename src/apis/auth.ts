@@ -1,4 +1,3 @@
-import { credential } from "firebase-admin";
 import { auth, firebaseAuth } from "../firebase";
 import actions from "../redux/actions";
 import { UserType } from "../redux/reducers/userReducer";
@@ -30,6 +29,7 @@ export const userSignedOut = () => {
 
 export const alwaysCheckTheUserAuthStatus = () => {
     return firebaseAuth.onAuthStateChanged(auth, user => {
+        console.warn('Auth State Listener', user);
         if (!user) {
             store.dispatch(actions.userActions.setCurrentUser(null));
             router.navigate(router.basename + "/sign-in");
@@ -37,4 +37,20 @@ export const alwaysCheckTheUserAuthStatus = () => {
             store.dispatch(actions.userActions.setCurrentUser(user.toJSON() as UserType));
         }
     });
+};
+
+
+export const createUser = (displayName: string, email: string, password: string) => {
+    return firebaseAuth
+        .createUserWithEmailAndPassword(auth, email, password)
+        .then(userCredential => {
+            return firebaseAuth.updateProfile(userCredential.user, { displayName })
+                .then(() => {
+                    return userCredential.user.toJSON() as UserType;
+                });
+        });
+};
+
+export const sendVerificationEmail = () => {
+    return firebaseAuth.sendEmailVerification(auth.currentUser as firebaseAuth.User);
 }

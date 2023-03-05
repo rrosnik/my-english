@@ -10,9 +10,17 @@ import { RootState } from '../../redux/store';
 import { UserType } from '../../redux/reducers/userReducer';
 import { Button, InputGroup } from 'react-bootstrap';
 import apis from '../../apis';
+import EmailVerifyingPage from '../../pages/EmailVerifyingPage';
 
 const AppLayout = () => {
   const currentUser = useSelector<RootState, UserType | null>(state => state.user.currentUser);
+
+  if (!currentUser?.emailVerified) {
+    return (
+      <EmailVerifyingPage />
+    );
+  }
+
   return (
     <div>
       <Navbar bg="light" expand="lg">
