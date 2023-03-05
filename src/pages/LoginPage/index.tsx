@@ -10,6 +10,7 @@ import "./index.scss";
 import { store } from '../../redux/store';
 import actions from '../../redux/actions';
 import apis from '../../apis';
+import { Link } from 'react-router-dom';
 
 const LoginValidationSchema = yup.object({
     email: yup.string().email("The email is invalid").required("Email is required!"),
@@ -103,12 +104,15 @@ const LoginPage = () => {
                                         </Form.Control.Feedback>}
                                     </Form.Group>
 
-                                    <Button variant="primary" type="submit">
+                                    <Button variant="primary" className="w-100" type="submit">
                                         Sign In
                                     </Button>
                                 </Form>
                             )}
                         </Formik>
+                        <Form.Text className="text-muted d-block text-center mt-4">
+                            you don't have account? <Link to="/sign-up">Sign Up</Link>
+                        </Form.Text>
                     </Card.Body>
 
                 </Card>
