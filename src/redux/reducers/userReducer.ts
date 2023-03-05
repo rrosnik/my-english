@@ -2,23 +2,22 @@ import { createReducer } from "@reduxjs/toolkit";
 import actions from "../actions";
 
 export type UserType = {
-    localId: string;
+    uid: string;
+    displayName?: string;
     email: string;
-    passwordHash: string;
     emailVerified: boolean;
-    passwordUpdatedAt: number,
-    providerUserInfo: Array<{
-        providerId: "password";
-        federatedId: string; // email
-        email: string; // email
-        rawId: string; // email
-    }>;
-    validSince: string; // timestamp: "1677989515",
-    lastLoginAt: string; // timestamp: "1677989515424",
-    createdAt: string;
-    lastRefreshAt: string; // datetime: "2023-03-05T04:11:55.424Z"
+    createdAt: string; // time: "1677977095634"
+    isAnonymous: boolean;
+    lastLoginAt: string; // time: "1677999334744"
+    phoneNumber?: string;
+    photoURL?: string;
+    stsTokenManager: {
+        refreshToken: string;
+        accessToken: string;
+        expirationTime: number; //1678002931475 
+    };
+    tenantId?: string;
 }
-
 
 export type UserStateType = {
     currentUser: UserType | null;

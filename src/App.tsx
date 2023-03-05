@@ -1,16 +1,21 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { RouterProvider } from 'react-router-dom';
 import './App.scss';
 import { auth, firebaseAuth } from './firebase';
 import router from './router';
+import apis from './apis';
 
 function App() {
 
-  firebaseAuth.onAuthStateChanged(auth, user => {
-    console.log('user', user)
-  });
 
+
+  useEffect(() => {
+    const unsubscribAutListener = apis.auth.alwaysCheckTheUserAuthStatus();
+    return () => {
+      unsubscribAutListener();
+    }
+  }, []);
 
   return (
     <div className="App">

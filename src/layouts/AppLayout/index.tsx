@@ -8,6 +8,8 @@ import NavDropdown from 'react-bootstrap/NavDropdown';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../redux/store';
 import { UserType } from '../../redux/reducers/userReducer';
+import { Button, InputGroup } from 'react-bootstrap';
+import apis from '../../apis';
 
 const AppLayout = () => {
   const currentUser = useSelector<RootState, UserType | null>(state => state.user.currentUser);
@@ -19,20 +21,32 @@ const AppLayout = () => {
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="me-auto">
-              <Nav.Link>
+              <Nav.Link as="div">
                 <Link to="insert">Insert</Link>
               </Nav.Link>
-              <Nav.Link>
+              <Nav.Link as="div">
                 <Link to="review">Review</Link>
               </Nav.Link>
             </Nav>
 
             <Navbar.Text>
-              Signed in as: {currentUser && currentUser.email}
+              {
+                currentUser
+                  ?
+                  <InputGroup>
+                    <Button disabled variant="outline-secondary">
+                      {currentUser.displayName}
+                    </Button>
+                    <Button type="button" onClick={() => apis.auth.userSignedOut()}>Sign out</Button>
+                  </InputGroup>
+                  :
+                  <Nav className="me-auto">
+                    <Nav.Link as="div">
+                      <Link to="sign-in">Sign in</Link>
+                    </Nav.Link>
+                  </Nav>
+              }
             </Navbar.Text>
-
-
-
           </Navbar.Collapse>
         </Container>
       </Navbar>
