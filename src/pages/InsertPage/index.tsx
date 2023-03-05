@@ -4,7 +4,7 @@ import { Formik } from 'formik';
 import { DataSnapshot } from 'firebase/database';
 
 import './index.scss';
-import { ListGroup, InputGroup, Form, Button, Card } from 'react-bootstrap';
+import { ListGroup, InputGroup, Form, Button, Card, Badge } from 'react-bootstrap';
 
 import AddEnglishCardForm from '../../components/organisms/forms/AddEnglishCardForm';
 
@@ -48,9 +48,9 @@ const InsertPage = () => {
                             <ListGroup.Item key={value.id}>
                                 <div >
                                     <div dir='rtl'>{value.persian}</div>
-                                    <div dir='rtl'>{value.persianCore}</div>
+                                    <div dir='rtl'><Badge bg='danger'>{value.persianCore}</Badge></div>
+                                    <div><Badge bg='success'>{value.englishCore}</Badge></div>
                                     <div>{value.english}</div>
-                                    <div>{value.englishCore}</div>
                                 </div>
                             </ListGroup.Item>
                         ))

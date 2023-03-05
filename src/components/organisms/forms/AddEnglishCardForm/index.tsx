@@ -1,5 +1,5 @@
 import { Formik } from 'formik';
-import { InputGroup, Form, Button, Card } from 'react-bootstrap';
+import { InputGroup, Form, Button, Card, Row, Col } from 'react-bootstrap';
 import { dbRefs, firebaseDatabase } from "../../../../firebase";
 import { EnglishCard } from '../../../../types';
 
@@ -38,7 +38,7 @@ const AddEnglishCardForm = () => {
                         /* and other goodies */
                     }) => (
                         <form onSubmit={handleSubmit}>
-                            <div>
+                            <Row>
                                 <InputGroup className="mb-3">
                                     <Form.Control
                                         type="text"
@@ -52,23 +52,40 @@ const AddEnglishCardForm = () => {
                                 </InputGroup>
                                 <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
                                 {errors.persian && touched.persian && errors.persian}
-                            </div>
-                            <div>
-                                <InputGroup className="mb-3">
-                                    <Form.Control
-                                        type="text"
-                                        name="persianCore"
-                                        onChange={handleChange}
-                                        onBlur={handleBlur}
-                                        value={values.persianCore}
-                                        dir="rtl"
-                                    />
-                                    <InputGroup.Text id="inputGroup-sizing-sm">هسته</InputGroup.Text>
-                                </InputGroup>
-                                <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
-                                {errors.persianCore && touched.persianCore && errors.persianCore}
-                            </div>
-                            <div>
+                            </Row>
+
+                            <Row>
+                                <Col>
+                                    <InputGroup className="mb-3">
+                                        <InputGroup.Text id="inputGroup-sizing-sm">Core</InputGroup.Text>
+                                        <Form.Control
+                                            type="text"
+                                            name="englishCore"
+                                            onChange={handleChange}
+                                            onBlur={handleBlur}
+                                            value={values.englishCore}
+                                        />
+                                    </InputGroup>
+                                    <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
+                                    {errors.englishCore && touched.englishCore && errors.englishCore}
+                                </Col>
+                                <Col>
+                                    <InputGroup className="mb-3">
+                                        <Form.Control
+                                            type="text"
+                                            name="persianCore"
+                                            onChange={handleChange}
+                                            onBlur={handleBlur}
+                                            value={values.persianCore}
+                                            dir="rtl"
+                                        />
+                                        <InputGroup.Text id="inputGroup-sizing-sm">هسته</InputGroup.Text>
+                                    </InputGroup>
+                                    <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
+                                    {errors.persianCore && touched.persianCore && errors.persianCore}
+                                </Col>
+                            </Row>
+                            <Row>
                                 <InputGroup className="mb-3">
                                     <InputGroup.Text id="inputGroup-sizing-sm">Sentence</InputGroup.Text>
                                     <Form.Control
@@ -81,21 +98,8 @@ const AddEnglishCardForm = () => {
                                 </InputGroup>
                                 <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
                                 {errors.english && touched.english && errors.english}
-                            </div>
-                            <div>
-                                <InputGroup className="mb-3">
-                                    <InputGroup.Text id="inputGroup-sizing-sm">Core</InputGroup.Text>
-                                    <Form.Control
-                                        type="text"
-                                        name="englishCore"
-                                        onChange={handleChange}
-                                        onBlur={handleBlur}
-                                        value={values.englishCore}
-                                    />
-                                </InputGroup>
-                                <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
-                                {errors.englishCore && touched.englishCore && errors.englishCore}
-                            </div>
+
+                            </Row>
 
                             <div>
                                 <Button type="submit" disabled={isSubmitting} variant="primary">
