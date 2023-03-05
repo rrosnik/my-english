@@ -35,15 +35,6 @@ export const alwaysCheckTheUserAuthStatus = () => {
             router.navigate(router.basename + "/sign-in");
         } else {
             store.dispatch(actions.userActions.setCurrentUser(user.toJSON() as UserType));
-            firebaseAuth.updateProfile(user, {
-                displayName: "Reza Rostaminikoo"
-              }).then(() => {
-                // Profile updated!
-                // ...
-              }).catch((error) => {
-                // An error occurred
-                // ...
-              });
         }
     });
 }
