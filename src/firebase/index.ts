@@ -1,8 +1,6 @@
 // Import the functions you need from the SDKs you need
 import * as firebaseApp from "firebase/app";
-import * as firebaseAdminApp from "firebase-admin/app";
 import * as firebaseAuth from "firebase/auth";
-import * as firebaseAdminAuth from "firebase-admin/auth";
 // import { getAnalytics } from "firebase/analytics";
 import * as firebaseDatabase from "firebase/database"
 
@@ -32,4 +30,5 @@ export {
     app,
     dbRefs,
     auth,
+    database,
 };
