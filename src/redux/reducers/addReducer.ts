@@ -1,16 +1,16 @@
 import { createReducer } from "@reduxjs/toolkit";
 
 
-export type AppState = {
+export type AppStateType = {
 
 };
 
-const appState: AppState = {
+const appState: AppStateType = {
 
 };
 
-const appreducer = createReducer(appState, (builder) => {
+const appReducer = createReducer<AppStateType>(appState, (builder) => {
     
 });
 
-export default appreducer;
+export default appReducer;
