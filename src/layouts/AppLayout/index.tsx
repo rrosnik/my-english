@@ -5,8 +5,12 @@ import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../redux/store';
+import { UserType } from '../../redux/reducers/userReducer';
 
 const AppLayout = () => {
+  const currentUser = useSelector<RootState, UserType | null>(state => state.user.currentUser);
   return (
     <div>
       <Navbar bg="light" expand="lg">
@@ -23,12 +27,9 @@ const AppLayout = () => {
               </Nav.Link>
             </Nav>
 
-            <Navbar.Toggle />
-        <Navbar.Collapse className="justify-content-end">
-          <Navbar.Text>
-            Signed in as: <a href="#login">Mark Otto</a>
-          </Navbar.Text>
-        </Navbar.Collapse>
+            <Navbar.Text>
+              Signed in as: {currentUser && currentUser.email}
+            </Navbar.Text>
 
 
 

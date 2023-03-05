@@ -8,7 +8,6 @@ import * as firebaseDatabase from "firebase/database"
 
 
 import appConfig from "./config.json";
-import adminAppConfig from "./adminConfig.json";
 
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
