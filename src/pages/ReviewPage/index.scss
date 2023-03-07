@@ -1,6 +1,13 @@
-.english-card-review {
-    * {
-        pointer-events: none;
+.review-page {
+    .review-items {
+        user-select: none;
     }
+    .english-card-review {
+        user-select: none;
 
+        * {
+            user-select: none;
+            pointer-events: none;
+        }
+    }
 }

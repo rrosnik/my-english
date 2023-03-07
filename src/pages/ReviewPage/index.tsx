@@ -7,15 +7,14 @@ import { useParams } from 'react-router-dom';
 import router from '../../router';
 import { DocumentData, DocumentSnapshot } from 'firebase/firestore';
 
-
+import "./index.scss";
 
 
 const EnglishReviewCard = (props: any) => {
-    const { item, colId }: { item: EnglishCard, colId: string } = props;
+    const { item, colId, getItems }: { item: EnglishCard, colId: string, getItems: Function } = props;
     const [cardState, setCardState] = useState<number>(item.persian ? 1 : 2);
 
     const increaseState = () => {
-        console.log(cardState);
         let finalIncrease = 1;
         if (cardState === 1)
             finalIncrease = item.persianCore ? 2 : (item.englishCore ? 3 : (item.english ? 4 : (item.persian ? 1 : 2)));
@@ -29,8 +28,6 @@ const EnglishReviewCard = (props: any) => {
 
         if (finalIncrease < cardState)
             updateRecord();
-        console.log(finalIncrease);
-
         setCardState(finalIncrease);
     }
 
@@ -42,11 +39,10 @@ const EnglishReviewCard = (props: any) => {
         };
         delete updatingData.id;
         firebase.utils.fsDatabase.updateItem(colId, item.id as string, updatingData)
-        firebase.rtDatabase.update(firebase.rtDbRefs.expressionsRef, {
-            [item.id as string]: updatingData
-        })
+            .then(() => {
+                getItems(colId);
+            });
     }
-
 
     return (
         <div className='english-card-review' onClick={increaseState}>
@@ -58,39 +54,38 @@ const EnglishReviewCard = (props: any) => {
     );
 }
 
-
 const ReviewPage = () => {
     const [update, setUpdate] = useState<number>();
     const [expressions, setExpressions] = useState<Array<any>>([]);
     const params = useParams<{ colId: string }>();
 
-    const getItems = useCallback<(setName: string) => Promise<Array<any>>>((colId: string) => {
+    const getItems = (colId: string) => {
         return firebase.utils.fsDatabase.getItems(colId)
             .then<Array<any>>(items => {
-                setExpressions(items);
+                const sorted = items.sort((a, b) => a.reviewedNumber - b.reviewedNumber || b.created_at - a.created_at);
+                console.log(sorted);
+                setExpressions(sorted);
                 return items;
             });
-    }, []);
+    };
 
     useEffect(() => {
-        console.log("useEffect review");
         getItems(params.colId as string);
         return () => { };
-    }, [update, getItems]);
+    }, [update]);
 
     return (
         <div className='page review-page'>
             count of items: {expressions.length}
-            <ListGroup>
+            <ListGroup className='review-items'>
                 {
                     expressions.map((value, index) => (
-                        <ListGroup.Item key={index}>
-                            <EnglishReviewCard item={value} colId={params.colId} />
+                        <ListGroup.Item key={(index + 1) * Math.random() * Math.random()}>
+                            <EnglishReviewCard item={value} colId={params.colId} getItems={getItems} />
                         </ListGroup.Item>
                     ))
                 }
             </ListGroup>
-
         </div>
     )
 }
