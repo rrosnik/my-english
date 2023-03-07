@@ -8,7 +8,7 @@ import NavDropdown from 'react-bootstrap/NavDropdown';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../redux/store';
 import { UserType } from '../../redux/reducers/userReducer';
-import { Button, InputGroup } from 'react-bootstrap';
+import { Button, InputGroup, Offcanvas } from 'react-bootstrap';
 import apis from '../../apis';
 import EmailVerifyingPage from '../../pages/EmailVerifyingPage';
 
@@ -23,11 +23,74 @@ const AppLayout = () => {
 
   return (
     <div>
-      <Navbar bg="light" expand="lg">
-        <Container>
+      {/* <!-- Navbar --> */}
+      <Navbar bg="light" expand="sm" collapseOnSelect >
+        {/* <!-- Container wrapper --> */}
+        <Container fluid>
+          {/* <!-- Navbar brand --> */}
           <Navbar.Brand>My English</Navbar.Brand>
+
+          {/* <!-- Toggle button --> */}
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
-          <Navbar.Collapse id="basic-navbar-nav">
+          <Navbar.Offcanvas id="basic-navbar-nav" placement="end">
+            <Offcanvas.Header>
+              <Offcanvas.Title className='w-100'>
+                {
+                  currentUser
+                    ?
+                    <InputGroup className='w-100'>
+                      <Button disabled variant="outline-secondary flex-grow-1 text-start">
+                        {currentUser.displayName}
+                      </Button>
+                      <Button type="button" onClick={() => apis.auth.userSignedOut()}>Sign out</Button>
+                    </InputGroup>
+                    :
+                    <Nav className="me-auto">
+                      <Nav.Link as="div">
+                        <Link to="sign-in">Sign in</Link>
+                      </Nav.Link>
+                    </Nav>
+                }
+              </Offcanvas.Title>
+            </Offcanvas.Header>
+
+            <Offcanvas.Body>
+              <Nav className="me-auto">
+                <Nav.Link as="div">
+                  <Link to="collection">
+                    Collection
+
+
+
+                  </Link>
+                </Nav.Link>
+              </Nav>
+
+              <Navbar.Text className="d-none d-sm-inline">
+                {
+                  currentUser
+                    ?
+                    <InputGroup className='w-100' size='sm'>
+                      <Button disabled variant="outline-secondary flex-grow-1 text-start">
+                        {currentUser.displayName}
+                      </Button>
+                      <Button type="button" onClick={() => apis.auth.userSignedOut()}>Sign out</Button>
+                    </InputGroup>
+                    :
+                    <Nav className="me-auto">
+                      <Nav.Link as="div">
+                        <Link to="sign-in">Sign in</Link>
+                      </Nav.Link>
+                    </Nav>
+                }
+              </Navbar.Text>
+            </Offcanvas.Body>
+          </Navbar.Offcanvas>
+        </Container>
+      </Navbar>
+      {/* 
+        
+          
             <Nav className="me-auto">
               <Nav.Link as="div">
                 <Link to="insert">Insert</Link>
@@ -55,9 +118,7 @@ const AppLayout = () => {
                   </Nav>
               }
             </Navbar.Text>
-          </Navbar.Collapse>
-        </Container>
-      </Navbar>
+       */}
       <Container>
         <Outlet />
       </Container>

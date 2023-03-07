@@ -1,19 +1,20 @@
 import { Formik } from 'formik';
 import { InputGroup, Form, Button, Card, Row, Col } from 'react-bootstrap';
-import { dbRefs, firebaseDatabase } from "../../../../firebase";
+import firebase from "../../../../firebase";
 import { EnglishCard } from '../../../../types';
 
 
 
-const AddEnglishCardForm = () => {
-
+const AddEnglishCardForm = (props: any) => {
+    const { setName }: { setName: string } = props;
     const addToExpressions = (data: EnglishCard) => {
-        firebaseDatabase.push(dbRefs.expressionsRef, {
+        firebase.utils.fsDatabase.addItem(setName, {
             ...data,
             created_at: Date.now(),
             updated_at: Date.now(),
             reviewedNumber: 0
         });
+        props.update();
     }
 
     return (

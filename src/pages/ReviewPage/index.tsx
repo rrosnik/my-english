@@ -1,28 +1,30 @@
 import { DataSnapshot } from 'firebase/database';
-import React, { useState, useEffect } from 'react'
-import { dbRefs, database, firebaseDatabase } from "../../firebase/index";
+import React, { useState, useEffect, useCallback } from 'react'
+import firebase from "../../firebase";
 import { ListGroup, Badge } from 'react-bootstrap';
 import { EnglishCard } from "../../types";
+import { useParams } from 'react-router-dom';
+import router from '../../router';
+import { DocumentData, DocumentSnapshot } from 'firebase/firestore';
 
 
 
 
 const EnglishReviewCard = (props: any) => {
-    const { info }: { info: EnglishCard } = props;
-    const [cardState, setCardState] = useState<number>(info.persian ? 1 : 2);
+    const { item, colId }: { item: EnglishCard, colId: string } = props;
+    const [cardState, setCardState] = useState<number>(item.persian ? 1 : 2);
 
     const increaseState = () => {
         console.log(cardState);
         let finalIncrease = 1;
         if (cardState === 1)
-            finalIncrease = info.persianCore ? 2 : (info.englishCore ? 3 : (info.english ? 4 : (info.persian ? 1 : 2)));
+            finalIncrease = item.persianCore ? 2 : (item.englishCore ? 3 : (item.english ? 4 : (item.persian ? 1 : 2)));
         else if (cardState === 2)
-            finalIncrease = info.englishCore ? 3 : (info.english ? 4 : (info.persian ? 1 : 2));
+            finalIncrease = item.englishCore ? 3 : (item.english ? 4 : (item.persian ? 1 : 2));
         else if (cardState === 3)
-            finalIncrease = info.english ? 4 : (info.persian ? 1 : 2);
+            finalIncrease = item.english ? 4 : (item.persian ? 1 : 2);
         else if (cardState === 4) {
-            finalIncrease = info.persian ? 1 : 2;
-
+            finalIncrease = item.persian ? 1 : 2;
         }
 
         if (finalIncrease < cardState)
@@ -34,54 +36,47 @@ const EnglishReviewCard = (props: any) => {
 
     const updateRecord = () => {
         const updatingData: EnglishCard = {
-            ...info,
-            reviewedNumber: ++info.reviewedNumber,
+            ...item,
+            reviewedNumber: ++item.reviewedNumber,
             updated_at: Date.now()
         };
         delete updatingData.id;
-        firebaseDatabase.update(dbRefs.expressionsRef, {
-            [info.id as string]: updatingData
+        firebase.utils.fsDatabase.updateItem(colId, item.id as string, updatingData)
+        firebase.rtDatabase.update(firebase.rtDbRefs.expressionsRef, {
+            [item.id as string]: updatingData
         })
     }
+
+
     return (
         <div className='english-card-review' onClick={increaseState}>
-            <div dir='rtl'>{info.persian}</div>
-            {cardState > 1 && <div dir='rtl'><Badge bg="danger">{info.persianCore}</Badge></div>}
-            {cardState > 2 && <div><Badge bg="success">{info.englishCore}</Badge></div>}
-            {cardState > 3 && <div>{info.english}</div>}
+            <div dir='rtl'>{item.persian}</div>
+            {cardState > 1 && <div dir='rtl'><Badge bg="danger">{item.persianCore}</Badge></div>}
+            {cardState > 2 && <div><Badge bg="success">{item.englishCore}</Badge></div>}
+            {cardState > 3 && <div>{item.english}</div>}
         </div>
     );
 }
 
 
-
-
-
-
-
 const ReviewPage = () => {
     const [update, setUpdate] = useState<number>();
     const [expressions, setExpressions] = useState<Array<any>>([]);
+    const params = useParams<{ colId: string }>();
+
+    const getItems = useCallback<(setName: string) => Promise<Array<any>>>((colId: string) => {
+        return firebase.utils.fsDatabase.getItems(colId)
+            .then<Array<any>>(items => {
+                setExpressions(items);
+                return items;
+            });
+    }, []);
 
     useEffect(() => {
         console.log("useEffect review");
-
-        firebaseDatabase.onValue(dbRefs.expressionsRef, (data: DataSnapshot) => {
-            if (data == null || data === undefined) setExpressions([]);
-            else if (data.val() instanceof Array) setExpressions(data.val());
-            else {
-                const result: Array<any> = [];
-                Object.keys(data.val()).forEach((v, i) => {
-                    result.push({ id: v, ...data.val()[v] });
-                });
-                setExpressions(result.sort((a, b) => a.reviewedNumber - b.reviewedNumber));
-            }
-        });
-
-        return () => {
-            firebaseDatabase.off(dbRefs.expressionsRef);
-        };
-    }, [update]);
+        getItems(params.colId as string);
+        return () => { };
+    }, [update, getItems]);
 
     return (
         <div className='page review-page'>
@@ -89,8 +84,8 @@ const ReviewPage = () => {
             <ListGroup>
                 {
                     expressions.map((value, index) => (
-                        <ListGroup.Item key={value.id}>
-                            <EnglishReviewCard info={value} />
+                        <ListGroup.Item key={index}>
+                            <EnglishReviewCard item={value} colId={params.colId} />
                         </ListGroup.Item>
                     ))
                 }

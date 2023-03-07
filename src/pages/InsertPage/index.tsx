@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react'
-import { dbRefs, database, firebaseDatabase } from "../../firebase/index";
+import React, { useCallback, useEffect, useState } from 'react'
+import firebase from "../../firebase";
 import { Formik } from 'formik';
 import { DataSnapshot } from 'firebase/database';
 
@@ -7,45 +7,34 @@ import './index.scss';
 import { ListGroup, InputGroup, Form, Button, Card, Badge } from 'react-bootstrap';
 
 import AddEnglishCardForm from '../../components/organisms/forms/AddEnglishCardForm';
+import { useParams } from 'react-router-dom';
 
 const InsertPage = () => {
     const [update, setUpdate] = useState<number>();
     const [expressions, setExpressions] = useState<Array<any>>([]);
+    const params = useParams<{ colId: string }>();
+    const getData = useCallback<(setName: string) => Promise<Array<any>>>((colId: string) => {
+        return firebase.utils.fsDatabase.getItems(colId)
+            .then<Array<any>>(items => {
+                setExpressions(items);
+                return items;
+            });
+    }, []);
 
     useEffect(() => {
-
         console.log("useEffect");
-
-        const queryRef = firebaseDatabase.query(
-            dbRefs.expressionsRef,
-            firebaseDatabase.limitToLast(5)
-        );
-
-        firebaseDatabase.onValue(queryRef, (data: DataSnapshot) => {
-            if (data == null || data === undefined) setExpressions([]);
-            else if (data.val() instanceof Array) setExpressions(data.val());
-            else {
-                const result: Array<any> = [];
-                Object.keys(data.val()).forEach((v, i) => {
-                    result.push({ id: v, ...data.val()[v] });
-                });
-                setExpressions(result.reverse());
-            }
-        });
-
-        return () => {
-            firebaseDatabase.off(queryRef);
-        };
-    }, [update]);
+        getData(params.colId as string);
+        return () => { };
+    }, [getData, update]);
 
     return (
         <div className='page insert-page'>
-            <AddEnglishCardForm />
+            <AddEnglishCardForm setName={params.colId} update={() => getData(params.colId as string)} />
             <div className='newly-added-cards'>
                 <ListGroup>
                     {
                         expressions.map((value, index) => (
-                            <ListGroup.Item key={value.id}>
+                            <ListGroup.Item key={index}>
                                 <div >
                                     <div dir='rtl'>{value.persian}</div>
                                     <div dir='rtl'><Badge bg='danger'>{value.persianCore}</Badge></div>

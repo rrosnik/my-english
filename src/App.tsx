@@ -2,7 +2,6 @@ import React, { useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { RouterProvider } from 'react-router-dom';
 import './App.scss';
-import { auth, firebaseAuth } from './firebase';
 import router from './router';
 import apis from './apis';
 

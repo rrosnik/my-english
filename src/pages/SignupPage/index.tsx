@@ -1,17 +1,14 @@
 import React, { useEffect } from 'react';
-import 'firebase/compat/auth';
-import { auth, firebaseAuth } from "../../firebase";
 import { Button, Card, Container, Form } from 'react-bootstrap';
 
 import { Formik } from 'formik';
 import * as yup from "yup";
 
-import "./index.scss";
-import { store } from '../../redux/store';
-import actions from '../../redux/actions';
 import apis from '../../apis';
 import { UserType } from '../../redux/reducers/userReducer';
 import { Link } from 'react-router-dom';
+
+import "./index.scss";
 
 const LoginValidationSchema = yup.object({
     email: yup.string().email("The email is invalid").required("Email is required!"),
@@ -41,6 +38,7 @@ const SignupPage = () => {
                             onSubmit={(values, { resetForm, setFieldError }) => {
                                 apis.auth.createUser(values.displayName, values.email, values.password)
                                     .then((user: UserType) => {
+                                        console.log({ user })
                                         apis.auth.userSignedIn(user);
                                     })
                                     .catch(error => {
@@ -57,6 +55,12 @@ const SignupPage = () => {
                                                 break;
                                             case "auth/too-many-requests":
                                                 setFieldError("message", error.message);
+                                                break;
+                                            case "auth/email-already-in-use":
+                                                setFieldError("email", "This email has already been registered");
+                                                break;
+                                            case "auth/weak-password":
+                                                setFieldError("password", "Pasword should be at least 6 characters");
                                                 break;
                                         }
                                     });

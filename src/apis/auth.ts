@@ -1,15 +1,13 @@
-import { auth, firebaseAuth } from "../firebase";
+import { User } from "@firebase/auth-types";
+import firebase from "../firebase";
 import actions from "../redux/actions";
 import { UserType } from "../redux/reducers/userReducer";
 import { store } from "../redux/store";
 import router from "../router";
 
 
-export const signInWithEmailAndPassword = (email: string, password: string) => {
-    return firebaseAuth.signInWithEmailAndPassword(auth, email, password)
-        .then<UserType>(credential => {
-            return credential.user.toJSON() as UserType;
-        });
+export const signIn = (email: string, password: string): Promise<UserType> => {
+    return firebase.utils.auth.signInWithEmailAndPassword(email, password);
 };
 
 
@@ -19,7 +17,7 @@ export const userSignedIn = (user: UserType) => {
 };
 
 export const userSignedOut = () => {
-    firebaseAuth.signOut(auth).then(() => {
+    firebase.utils.auth.signOut().then(() => {
         store.dispatch(actions.userActions.setCurrentUser(null));
         router.navigate(router.basename + "/sign-in");
     }).catch(reason => {
@@ -28,7 +26,7 @@ export const userSignedOut = () => {
 };
 
 export const alwaysCheckTheUserAuthStatus = () => {
-    return firebaseAuth.onAuthStateChanged(auth, user => {
+    return firebase.auths.onAuthStateChanged(firebase.auth, user => {
         console.warn('Auth State Listener', user);
         if (!user) {
             store.dispatch(actions.userActions.setCurrentUser(null));
@@ -41,16 +39,18 @@ export const alwaysCheckTheUserAuthStatus = () => {
 
 
 export const createUser = (displayName: string, email: string, password: string) => {
-    return firebaseAuth
-        .createUserWithEmailAndPassword(auth, email, password)
-        .then(userCredential => {
-            return firebaseAuth.updateProfile(userCredential.user, { displayName })
-                .then(() => {
+    // create user
+    return firebase.utils.auth.createUserWithEmailAndPassword(email, password)
+        .then<UserType>(userCredential => {
+            // update profile and add display name
+            const userID = userCredential.user.uid;
+            return firebase.auths.updateProfile(userCredential.user, { displayName })
+                .then<UserType>(() => {
                     return userCredential.user.toJSON() as UserType;
                 });
         });
 };
 
 export const sendVerificationEmail = () => {
-    return firebaseAuth.sendEmailVerification(auth.currentUser as firebaseAuth.User);
+    return firebase.auths.sendEmailVerification(firebase.auth.currentUser as User);
 }

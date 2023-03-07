@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import 'firebase/compat/auth';
-import { auth, firebaseAuth } from "../../firebase";
 import { Button, Card, Container, Form } from 'react-bootstrap';
 
 import { Formik } from 'formik';
@@ -32,7 +31,7 @@ const LoginPage = () => {
                         <Formik
                             initialValues={{ email: '', password: '', message: '' }}
                             onSubmit={(values, { resetForm, setFieldError }) => {
-                                apis.auth.signInWithEmailAndPassword(values.email, values.password)
+                                apis.auth.signIn(values.email, values.password)
                                     .then(user => apis.auth.userSignedIn(user))
                                     .catch(error => {
                                         console.log({ error });
