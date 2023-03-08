@@ -101,7 +101,7 @@ const AddEnglishCardForm = (props: any) => {
                                     <Form.Control
                                         as='textarea'
                                         rows={5}
-                                        enterKeyHint='next'
+                                        {...{ enterKeyHint: 'next' }}
                                         type="text"
                                         name="persian"
                                         onChange={handleChange}
@@ -134,7 +134,7 @@ const AddEnglishCardForm = (props: any) => {
                                     <Form.Control
                                         as='textarea'
                                         rows={5}
-                                        enterKeyHint='send'
+                                        {...{ enterKeyHint: 'send' }}
                                         type="text"
                                         name="english"
                                         onChange={handleChange}
