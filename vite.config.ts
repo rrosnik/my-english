@@ -12,7 +12,6 @@ export default defineConfig({
       name: 'Myglish',
       short_name: 'ME',
       description: 'An App for English Learning',
-      theme_color: '#ff0088',
       start_url: '/',
       icons: [
         {
