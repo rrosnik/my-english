@@ -88,10 +88,10 @@ const CollectionPage = () => {
 
                         <div className='actions'>
                             <Button type="button" size='sm' onClick={() => {
-                                router.navigate(`my-english/${doc}/review`);
+                                router.navigate(`/${doc}/review`);
                             }}>Review</Button>
                             <Button type="button" size='sm' variant='warning' onClick={() => {
-                                router.navigate(`my-english/${doc}/insert`);
+                                router.navigate(`/${doc}/insert`);
                             }}>Insert</Button>
                         </div>
                     </ListGroup.Item>)
