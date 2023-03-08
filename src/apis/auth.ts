@@ -30,7 +30,7 @@ export const alwaysCheckTheUserAuthStatus = () => {
         console.warn('Auth State Listener', user);
         if (!user) {
             store.dispatch(actions.userActions.setCurrentUser(null));
-            router.navigate(router.basename + "/sign-in");
+            router.navigate("/sign-in");
         } else {
             store.dispatch(actions.userActions.setCurrentUser(user.toJSON() as UserType));
         }
