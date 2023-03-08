@@ -119,7 +119,7 @@ const AppLayout = () => {
               }
             </Navbar.Text>
        */}
-      <Container>
+      <Container fluid>
         <Outlet />
       </Container>
     </div>

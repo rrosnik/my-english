@@ -33,7 +33,7 @@ const InsertPage = () => {
             <div className='newly-added-cards'>
                 <ListGroup>
                     {
-                        expressions.map((value, index) => (
+                        expressions.slice(0,1).map((value, index) => (
                             <ListGroup.Item key={index}>
                                 <div >
                                     <div dir='rtl'>{value.persian}</div>

@@ -1,35 +1,18 @@
 import { DataSnapshot } from 'firebase/database';
 import React, { useState, useEffect, useCallback } from 'react'
 import firebase from "../../firebase";
-import { ListGroup, Badge } from 'react-bootstrap';
+import { ListGroup, Badge, Card, Button } from 'react-bootstrap';
 import { EnglishCard } from "../../types";
 import { useParams } from 'react-router-dom';
 import router from '../../router';
 import { DocumentData, DocumentSnapshot } from 'firebase/firestore';
-
+import ReactMarkdown from 'react-markdown';
+import { Icon } from '@iconify/react';
 import "./index.scss";
 
-
-const EnglishReviewCard = (props: any) => {
+const EachEnglishCard = (props: any) => {
     const { item, colId, getItems }: { item: EnglishCard, colId: string, getItems: Function } = props;
-    const [cardState, setCardState] = useState<number>(item.persian ? 1 : 2);
-
-    const increaseState = () => {
-        let finalIncrease = 1;
-        if (cardState === 1)
-            finalIncrease = item.persianCore ? 2 : (item.englishCore ? 3 : (item.english ? 4 : (item.persian ? 1 : 2)));
-        else if (cardState === 2)
-            finalIncrease = item.englishCore ? 3 : (item.english ? 4 : (item.persian ? 1 : 2));
-        else if (cardState === 3)
-            finalIncrease = item.english ? 4 : (item.persian ? 1 : 2);
-        else if (cardState === 4) {
-            finalIncrease = item.persian ? 1 : 2;
-        }
-
-        if (finalIncrease < cardState)
-            updateRecord();
-        setCardState(finalIncrease);
-    }
+    const [reviewMode, setReviewMode] = useState<boolean>(true);
 
     const updateRecord = () => {
         const updatingData: EnglishCard = {
@@ -43,16 +26,31 @@ const EnglishReviewCard = (props: any) => {
                 getItems(colId);
             });
     }
-
     return (
-        <div className='english-card-review' onClick={increaseState}>
-            <div dir='rtl'>{item.persian}</div>
-            {cardState > 1 && <div dir='rtl'><Badge bg="danger">{item.persianCore}</Badge></div>}
-            {cardState > 2 && <div><Badge bg="success">{item.englishCore}</Badge></div>}
-            {cardState > 3 && <div>{item.english}</div>}
-        </div>
+        <Card className='english-card-review' dir={reviewMode ? 'rtl' : 'ltr'}>
+            <Card.Header>{reviewMode ? item.persianCore : item.englishCore}</Card.Header>
+            <Card.Body>
+                <ReactMarkdown>
+                    {reviewMode ? item.persian : item.english}
+                </ReactMarkdown>
+            </Card.Body>
+            <Card.Footer>
+                <div className='d-flex justify-content-between'>
+
+                    {!reviewMode && <Button type="button" variant='success'>
+                        <Icon icon="line-md:confirm-circle" width="24" height="24" onClick={updateRecord} />
+                    </Button>
+                    }
+                    <Button type="button" variant='primary' onClick={() => setReviewMode(!reviewMode)}>
+                        <Icon icon="ic:sharp-loop" width="24" height="24" />
+                    </Button>
+                </div>
+                <Badge bg="success">
+                </Badge>
+            </Card.Footer>
+        </Card>
     );
-}
+};
 
 const ReviewPage = () => {
     const [update, setUpdate] = useState<number>();
@@ -62,9 +60,7 @@ const ReviewPage = () => {
     const getItems = (colId: string) => {
         return firebase.utils.fsDatabase.getItems(colId)
             .then<Array<any>>(items => {
-                const sorted = items.sort((a, b) => a.reviewedNumber - b.reviewedNumber || b.created_at - a.created_at);
-                console.log(sorted);
-                setExpressions(sorted);
+                setExpressions(items);
                 return items;
             });
     };
@@ -77,15 +73,13 @@ const ReviewPage = () => {
     return (
         <div className='page review-page'>
             count of items: {expressions.length}
-            <ListGroup className='review-items'>
+            <div className='review-items'>
                 {
                     expressions.map((value, index) => (
-                        <ListGroup.Item key={(index + 1) * Math.random() * Math.random()}>
-                            <EnglishReviewCard item={value} colId={params.colId} getItems={getItems} />
-                        </ListGroup.Item>
+                        <EachEnglishCard key={value.id} item={value} colId={params.colId} getItems={getItems} ></EachEnglishCard>
                     ))
                 }
-            </ListGroup>
+            </div>
         </div>
     )
 }

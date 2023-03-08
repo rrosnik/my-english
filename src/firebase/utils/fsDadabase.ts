@@ -27,7 +27,7 @@ export const getItems = (colId: string): Promise<Array<EnglishCard>> => {
                 if (doc.id !== firebase.auth.currentUser?.uid)
                     items.push({ id: doc.id, ...doc.data() } as EnglishCard);
             });
-            return items;
+            return items.sort((a, b) => a.reviewedNumber - b.reviewedNumber || b.created_at - a.created_at);
         })
 };
 
