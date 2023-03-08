@@ -38,18 +38,24 @@ const AddEnglishCardForm = (props: any) => {
 
             // if there is next input form shouldn't be submitted 
             // instead focus should be changed
-            if (inputs[index].getAttribute("enterKeyHint") !== 'send') e.preventDefault();
-            index = index === 3 ? 0 : index + 1;
-            inputs[index].focus();
-            // if (index === 0) {
-            //     Object.keys(errors).reverse().forEach(ep => {
-            //         if (!!errors[ep as 'persian' | 'persianCore' | 'english' | 'englishCore']) {
-            //             const elem = inputs.find(el => el.name === ep) as HTMLInputElement | HTMLTextAreaElement;
-            //             elem.textContent = '';
-            //             elem.focus();
-            //         }
-            //     });
-            // }
+            if (inputs[index].getAttribute("enterKeyHint") !== 'send' && inputs[index].tagName !== "TEXTAREA") {
+                console.log("adasdadasd")
+                e.preventDefault();
+            }
+            console.log(inputs[index].tagName);
+            if (inputs[index].tagName !== "TEXTAREA") {
+                index = index === 3 ? 0 : index + 1;
+                inputs[index].focus();
+                if (index === 0) {
+                    Object.keys(errors).reverse().forEach(ep => {
+                        if (!!errors[ep as 'persian' | 'persianCore' | 'english' | 'englishCore']) {
+                            const elem = inputs.find(el => el.name === ep) as HTMLInputElement | HTMLTextAreaElement;
+                            elem.textContent = '';
+                            elem.focus();
+                        }
+                    });
+                }
+            }
         }
     }
     return (
@@ -101,7 +107,7 @@ const AddEnglishCardForm = (props: any) => {
                                     <Form.Control
                                         as='textarea'
                                         rows={5}
-                                        {...{ enterKeyHint: 'next' }}
+                                        cols={20}
                                         type="text"
                                         name="persian"
                                         onChange={handleChange}
@@ -134,7 +140,6 @@ const AddEnglishCardForm = (props: any) => {
                                     <Form.Control
                                         as='textarea'
                                         rows={5}
-                                        {...{ enterKeyHint: 'send' }}
                                         type="text"
                                         name="english"
                                         onChange={handleChange}
@@ -143,8 +148,6 @@ const AddEnglishCardForm = (props: any) => {
                                     />
                                     <Form.Control.Feedback type="invalid">{errors.english}</Form.Control.Feedback>
                                 </InputGroup>
-
-
                             </Row>
 
                             <div>
