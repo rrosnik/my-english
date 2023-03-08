@@ -33,6 +33,7 @@ export const alwaysCheckTheUserAuthStatus = () => {
             router.navigate("/sign-in");
         } else {
             store.dispatch(actions.userActions.setCurrentUser(user.toJSON() as UserType));
+            store.dispatch(actions.app.changeStatus("ready"));
         }
     });
 };
