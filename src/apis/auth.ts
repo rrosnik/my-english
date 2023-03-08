@@ -13,13 +13,13 @@ export const signIn = (email: string, password: string): Promise<UserType> => {
 
 export const userSignedIn = (user: UserType) => {
     store.dispatch(actions.userActions.setCurrentUser(user));
-    router.navigate(router.basename + "/insert");
+    router.navigate("/insert");
 };
 
 export const userSignedOut = () => {
     firebase.utils.auth.signOut().then(() => {
         store.dispatch(actions.userActions.setCurrentUser(null));
-        router.navigate(router.basename + "/sign-in");
+        router.navigate("/sign-in");
     }).catch(reason => {
         console.log({ reason });
     });
