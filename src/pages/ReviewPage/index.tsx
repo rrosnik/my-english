@@ -9,6 +9,7 @@ import { DocumentData, DocumentSnapshot } from 'firebase/firestore';
 import ReactMarkdown from 'react-markdown';
 import { Icon } from '@iconify/react';
 import "./index.scss";
+import Speaker from '../../components/molecules/Speaker';
 
 const EachEnglishCard = (props: any) => {
     const { item, colId, getItems }: { item: EnglishCard, colId: string, getItems: Function } = props;
@@ -28,11 +29,19 @@ const EachEnglishCard = (props: any) => {
     }
     return (
         <Card className='english-card-review' dir={reviewMode ? 'rtl' : 'ltr'}>
-            <Card.Header>{reviewMode ? item.persianCore : item.englishCore}</Card.Header>
+            <Card.Header>
+                {reviewMode ? item.persianCore : item.englishCore}
+                <Speaker
+                    text={reviewMode ? '' : item.englishCore}
+                    lang={reviewMode ? 'fa' : 'en'} />
+            </Card.Header>
             <Card.Body>
                 <ReactMarkdown>
                     {reviewMode ? item.persian : item.english}
                 </ReactMarkdown>
+                <Speaker
+                    text={reviewMode ? '' : item.english}
+                    lang={reviewMode ? 'fa' : 'en'} />
             </Card.Body>
             <Card.Footer>
                 <div className='d-flex justify-content-between'>
