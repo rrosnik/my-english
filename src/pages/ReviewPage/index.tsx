@@ -1,5 +1,5 @@
 import { DataSnapshot } from 'firebase/database';
-import React, { useState, useEffect, useCallback } from 'react'
+import React, { useState, useEffect, useCallback, useRef, Ref } from 'react'
 import firebase from "../../firebase";
 import { Badge, Card, Button } from 'react-bootstrap';
 import { EnglishCard } from "../../types";
@@ -8,11 +8,13 @@ import ReactMarkdown from 'react-markdown';
 import { Icon } from '@iconify/react';
 import "./index.scss";
 import Speaker from '../../components/molecules/Speaker';
+import UpdateCardAsModal from '../../components/layouts/UpdateCardAsModal';
 
 const EachEnglishCard = (props: any) => {
     const { item, colId, getItems }: { item: EnglishCard, colId: string, getItems: Function } = props;
     const [reviewMode, setReviewMode] = useState<boolean>(true);
-
+    const [isUpdatingMode, setIsUpdatingMode] = useState<boolean>(false);
+    const modalRef = useRef<HTMLDialogElement>();
     const updateRecord = () => {
         const updatingData: EnglishCard = {
             ...item,
@@ -32,7 +34,13 @@ const EachEnglishCard = (props: any) => {
                 <Speaker
                     text={reviewMode ? '' : item.englishCore}
                     lang={reviewMode ? 'fa' : 'en'} />
-                {reviewMode && <Icon icon="material-symbols:edit" color="#67f19c" width="24" height="24" />}
+                {reviewMode && <Icon icon="material-symbols:edit" color="#67f19c" width="24" height="24" onClick={() => {
+                    console.log("Adadasdasd");
+                    modalRef.current?.showModal();
+                    setIsUpdatingMode(true);
+
+                }
+                } />}
             </Card.Header>
             <Card.Body>
                 <ReactMarkdown>
@@ -53,6 +61,14 @@ const EachEnglishCard = (props: any) => {
                 <Badge bg="success">
                 </Badge>
             </Card.Footer>
+            <UpdateCardAsModal
+                onUpdate={() => {
+                    console.log("asssssssssssssssssss");
+                    getItems(colId);
+                }}
+                setName={colId}
+                ref={modalRef as Ref<HTMLDialogElement>} updatingItem={item}
+            />
         </Card>
     );
 };

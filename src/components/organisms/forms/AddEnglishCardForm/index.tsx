@@ -6,20 +6,32 @@ import * as yup from "yup";
 
 
 const AddCardVlidationSchema = yup.object({
+    id: yup.string().notRequired(),
     persian: yup.string().required("The field is required"),
     persianCore: yup.string().required("The field is required"),
     english: yup.string().required("The field is required"),
     englishCore: yup.string().required("The field is required"),
 });
 const AddEnglishCardForm = (props: any) => {
-    const { setName }: { setName: string } = props;
+
+    const { setName, updatingItem }: { setName: string, updatingItem?: EnglishCard } = props;
+
     const addToExpressions = (data: EnglishCard) => {
-        return firebase.utils.fsDatabase.addItem(setName, {
+        const input: EnglishCard = {
             ...data,
-            created_at: Date.now(),
+            created_at: data.created_at ?? Date.now(),
             updated_at: Date.now(),
-            reviewedNumber: 0
-        });
+            reviewedNumber: data.reviewedNumber ?? 0
+        };
+        delete input.id;
+
+        if (!updatingItem?.id) {
+            return firebase.utils.fsDatabase.addItem(setName, input);
+        }
+        else {
+            console.log('updatingItem', updatingItem);
+            return firebase.utils.fsDatabase.updateItem(setName, updatingItem.id, input);
+        }
     }
 
     const focusOrSubmit = (e: React.KeyboardEvent<HTMLFormElement>, errors: FormikErrors<{
@@ -60,14 +72,26 @@ const AddEnglishCardForm = (props: any) => {
     }
     return (
         <Card className="add-english-card-form">
-            <Card.Header>Add an English card</Card.Header>
+            <Card.Header>
+                {updatingItem?.id
+                    ? 'Update Form'
+                    : 'Add Form'
+                }
+            </Card.Header>
             <Card.Body>
                 <Formik
-                    initialValues={{ persian: '', persianCore: '', english: '', englishCore: '' }}
-                    onSubmit={(values, { setSubmitting, resetForm, setFieldError, }) => {
+                    initialValues={{
+                        id: updatingItem?.id,
+                        persian: updatingItem?.persian ?? '',
+                        persianCore: updatingItem?.persianCore ?? '',
+                        english: updatingItem?.english ?? '',
+                        englishCore: updatingItem?.englishCore ?? ''
+                    }}
+                    onSubmit={(values, { resetForm, setSubmitting }) => {
                         addToExpressions(values as EnglishCard).then(() => {
-                            props.update();
-                            resetForm();
+                            !updatingItem?.id && resetForm();
+                            setSubmitting(false);
+                            props.update?.();
                         });
 
                     }}
@@ -151,9 +175,25 @@ const AddEnglishCardForm = (props: any) => {
                             </Row>
 
                             <div>
-                                <Button type="submit" disabled={isSubmitting} variant="primary">
-                                    Save
-                                </Button>
+                                {updatingItem?.id
+
+                                    ?
+                                    <div className='d-flex gap-2'>
+                                        <Button type="submit" disabled={isSubmitting} variant="success">
+                                            Update
+                                        </Button>
+                                        <Button type="button" disabled={isSubmitting} variant="secondary" onClick={() => {
+                                            props.onClose?.()
+                                        }}>
+                                            Cancel
+                                        </Button>
+                                    </div>
+                                    : <Button type="submit" disabled={isSubmitting} variant="primary">
+                                        Save
+                                    </Button>
+
+                                }
+
                             </div>
                         </form>
                     )}

@@ -47,6 +47,10 @@ export const addItem = (colId: string, item: EnglishCard): Promise<DocumentRefer
 };
 
 export const updateItem = (colId: string, docId: string, item: EnglishCard): Promise<void> => {
+
+    console.log(firebase.auth.currentUser?.uid)
+    console.log({ colId })
+    console.log({ docId })
     const ref = firebase.fsDbRefs.docRef(firebase.auth.currentUser?.uid as string, colId, docId);
     return firebase.fsDatabase.updateDoc(ref, item);
 };
