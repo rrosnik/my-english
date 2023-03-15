@@ -1,11 +1,9 @@
 import { DataSnapshot } from 'firebase/database';
 import React, { useState, useEffect, useCallback } from 'react'
 import firebase from "../../firebase";
-import { ListGroup, Badge, Card, Button } from 'react-bootstrap';
+import { Badge, Card, Button } from 'react-bootstrap';
 import { EnglishCard } from "../../types";
 import { useParams } from 'react-router-dom';
-import router from '../../router';
-import { DocumentData, DocumentSnapshot } from 'firebase/firestore';
 import ReactMarkdown from 'react-markdown';
 import { Icon } from '@iconify/react';
 import "./index.scss";
@@ -34,6 +32,7 @@ const EachEnglishCard = (props: any) => {
                 <Speaker
                     text={reviewMode ? '' : item.englishCore}
                     lang={reviewMode ? 'fa' : 'en'} />
+                {reviewMode && <Icon icon="material-symbols:edit" color="#67f19c" width="24" height="24" />}
             </Card.Header>
             <Card.Body>
                 <ReactMarkdown>
@@ -46,13 +45,10 @@ const EachEnglishCard = (props: any) => {
             <Card.Footer>
                 <div className='d-flex justify-content-between'>
 
-                    {!reviewMode && <Button type="button" variant='success'>
-                        <Icon icon="line-md:confirm-circle" width="24" height="24" onClick={updateRecord} />
-                    </Button>
+                    {!reviewMode &&
+                        <Icon icon="line-md:confirm-circle" color="#198754" width="24" height="24" onClick={updateRecord} />
                     }
-                    <Button type="button" variant='primary' onClick={() => setReviewMode(!reviewMode)}>
-                        <Icon icon="ic:sharp-loop" width="24" height="24" />
-                    </Button>
+                    <Icon icon="ic:sharp-loop" color="#0d6efd" width="24" height="24" onClick={() => setReviewMode(!reviewMode)} />
                 </div>
                 <Badge bg="success">
                 </Badge>

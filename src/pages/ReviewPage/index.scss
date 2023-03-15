@@ -10,19 +10,22 @@
 
         .english-card-review {
             user-select: none;
+            transition: all 0.2s cubic-bezier(0.075, 0.82, 0.165, 1);
             box-shadow: 0px 2px 4px rgba(14, 30, 37, 0.12), 0px 2px 16px rgba(14, 30, 37, 0.32);
             * {
                 user-select: none;
             }
         }
 
-        .card-body strong {
-            color: #ff1a40;
-            /* text-decoration: underline; */
-            font-weight: 500;
-            background: rgba(255, 26, 64, 0.1215686275);
-            border-radius: 0.5rem;
-            padding: 0px 0.5rem 5px;
+        .card-body {
+            strong {
+                color: #ff1a40;
+                /* text-decoration: underline; */
+                font-weight: 500;
+                background: rgba(255, 26, 64, 0.1215686275);
+                border-radius: 0.5rem;
+                padding: 0px 0.5rem 5px;
+            }
         }
         .card-header {
             display: flex;
