@@ -28,13 +28,13 @@ const EachEnglishCard = (props: any) => {
             });
     }
     return (
-        <Card className='english-card-review' dir={reviewMode ? 'rtl' : 'ltr'}>
+        <Card className={`english-card-review ${item.cardType}`} dir={reviewMode ? 'rtl' : 'ltr'}>
             <Card.Header>
-                {reviewMode ? item.persianCore : item.englishCore}
+                <p>{reviewMode ? item.persianCore : item.englishCore}</p>
                 <Speaker
                     text={reviewMode ? '' : item.englishCore}
                     lang={reviewMode ? 'fa' : 'en'} />
-                {reviewMode && <Icon icon="material-symbols:edit" color="#67f19c" width="24" height="24" onClick={() => {
+                {reviewMode && <Icon className='edit-icon' icon="material-symbols:edit" width="24" height="24" onClick={() => {
                     console.log("Adadasdasd");
                     modalRef.current?.showModal();
                     setIsUpdatingMode(true);
