@@ -1,8 +1,11 @@
 import { Formik, FormikErrors } from 'formik';
 import { InputGroup, Form, Button, Card, Row, Col } from 'react-bootstrap';
 import firebase from "../../../../firebase";
-import { EnglishCard } from '../../../../types';
+import { EnglishCard, CardType, CardTypeEnum } from '../../../../types';
 import * as yup from "yup";
+
+
+import "./index.scss";
 
 
 const AddCardVlidationSchema = yup.object({
@@ -11,12 +14,17 @@ const AddCardVlidationSchema = yup.object({
     persianCore: yup.string().required("The field is required"),
     english: yup.string().required("The field is required"),
     englishCore: yup.string().required("The field is required"),
+    cardType: yup.mixed()
+        .oneOf(Object.values(CardTypeEnum), "the type is incorrect")
+        .required("The type of card should be selected")
 });
 const AddEnglishCardForm = (props: any) => {
 
     const { setName, updatingItem }: { setName: string, updatingItem?: EnglishCard } = props;
 
     const addToExpressions = (data: EnglishCard) => {
+        console.log(data);
+
         const input: EnglishCard = {
             ...data,
             created_at: data.created_at ?? Date.now(),
@@ -85,14 +93,17 @@ const AddEnglishCardForm = (props: any) => {
                         persian: updatingItem?.persian ?? '',
                         persianCore: updatingItem?.persianCore ?? '',
                         english: updatingItem?.english ?? '',
-                        englishCore: updatingItem?.englishCore ?? ''
+                        englishCore: updatingItem?.englishCore ?? '',
+                        cardType: updatingItem?.cardType ?? ''
                     }}
                     onSubmit={(values, { resetForm, setSubmitting }) => {
-                        addToExpressions(values as EnglishCard).then(() => {
-                            !updatingItem?.id && resetForm();
-                            setSubmitting(false);
-                            props.update?.();
-                        });
+                        console.log(values)
+                        addToExpressions(values as EnglishCard)
+                            .then(() => {
+                                !updatingItem?.id && resetForm();
+                                setSubmitting(false);
+                                props.update?.();
+                            });
 
                     }}
                     validationSchema={AddCardVlidationSchema}
@@ -102,15 +113,37 @@ const AddEnglishCardForm = (props: any) => {
                         errors,
                         touched,
                         handleChange,
-                        handleBlur,
                         handleSubmit,
                         isSubmitting,
+                        setFieldValue
                         /* and other goodies */
                     }) => (
                         <form
                             onKeyDown={(e) => focusOrSubmit(e, errors)}
                             onSubmit={handleSubmit}
                         >
+                            <Row >
+                                <Form.Text className="text-danger">{errors.cardType}</Form.Text>
+                                <div
+                                    className={`card-type ${errors.cardType ? "is-invalid" : ""}`}
+
+
+                                >
+                                    {
+                                        Object.values(CardTypeEnum).map((type, index) => {
+                                            return (
+                                                <button
+                                                    className={`${values.cardType === type ? 'active' : ''}`}
+                                                    type="button"
+                                                    onClick={() => setFieldValue("cardType", values.cardType === type ? '' : type)}
+                                                >
+                                                    {type}
+                                                </button>
+                                            );
+                                        })
+                                    }
+                                </div>
+                            </Row>
                             <Row>
                                 <InputGroup className="mb-3" hasValidation>
                                     <Form.Control

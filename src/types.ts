@@ -6,5 +6,14 @@ export type EnglishCard = {
     englishCore: string;
     persian: string,
     persianCore: string,
-    reviewedNumber: number
+    reviewedNumber: number,
+    cardType?: CardType
 };
+
+export enum CardTypeEnum {
+    word = "word",
+    idiom = "idiom",
+    phrase = "phrase",
+}
+
+export type CardType = `${CardTypeEnum}`;
