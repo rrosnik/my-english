@@ -22,7 +22,6 @@
                 display: flex;
                 align-items: center;
                 justify-content: space-between;
-                
                 color: var(--clr-header-text);
                 background-color: var(--clr-bg-header);
 
@@ -30,6 +29,7 @@
                     min-width: max-content;
                     max-width: max-content;
                     color: var(--clr-header-edit-icon);
+                    flex-basis: content;
                 }
             }
             .card-body {
@@ -50,8 +50,12 @@
                 --clr-bg-header: #f8c630;
                 --clr-header-text: black;
             }
-            &.phrase.card{
-                --clr-bg-header :#eb9486;
+            &.phrase.card {
+                --clr-bg-header: #eb9486;
+                --clr-header-text: black;
+            }
+            &.cont.card {
+                --clr-bg-header: #d655f6;
                 --clr-header-text: black;
             }
         }

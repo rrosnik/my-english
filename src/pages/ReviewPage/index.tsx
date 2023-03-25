@@ -31,9 +31,9 @@ const EachEnglishCard = (props: any) => {
         <Card className={`english-card-review ${item.cardType}`} dir={reviewMode ? 'rtl' : 'ltr'}>
             <Card.Header>
                 <p>{reviewMode ? item.persianCore : item.englishCore}</p>
-                <Speaker
+                {!reviewMode && <Speaker
                     text={reviewMode ? '' : item.englishCore}
-                    lang={reviewMode ? 'fa' : 'en'} />
+                    lang={reviewMode ? 'fa' : 'en'} />}
                 {reviewMode && <Icon className='edit-icon' icon="material-symbols:edit" width="24" height="24" onClick={() => {
                     console.log("Adadasdasd");
                     modalRef.current?.showModal();

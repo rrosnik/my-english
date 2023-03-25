@@ -14,6 +14,7 @@ export enum CardTypeEnum {
     word = "word",
     idiom = "idiom",
     phrase = "phrase",
+    cont = "cont",
 }
 
 export type CardType = `${CardTypeEnum}`;
