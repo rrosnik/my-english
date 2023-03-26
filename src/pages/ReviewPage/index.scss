@@ -1,4 +1,30 @@
+$types: word, idiom, phrase, cont, others;
+
 .review-page {
+    .filter-section {
+        margin-block-end: 1.5rem;
+
+        > div {
+            display: flex;
+            button {
+                margin-inline: 0;
+                border: none;
+                padding-inline: 0.8rem;
+                padding-block: 0.5rem;
+                border-radius: 0;
+                gap: 0;
+                width: rem;
+
+                @each $type in $types {
+                    &.#{$type}.active {
+                        background-color: var(--clr-#{$type});
+                        color: white;
+                    }
+                }
+            }
+        }
+    }
+
     .review-items {
         user-select: none;
         display: grid;
@@ -23,7 +49,7 @@
                 align-items: center;
                 justify-content: space-between;
                 color: var(--clr-header-text);
-                background-color: var(--clr-bg-header);
+                // background-color: var(--clr-bg-header);
 
                 .edit-icon {
                     min-width: max-content;
@@ -41,22 +67,10 @@
                     padding: 0px 0.5rem 5px;
                 }
             }
-
-            &.word.card {
-                --clr-bg-header: #824670;
-                --clr-header-text: white;
-            }
-            &.idiom.card {
-                --clr-bg-header: #f8c630;
-                --clr-header-text: black;
-            }
-            &.phrase.card {
-                --clr-bg-header: #eb9486;
-                --clr-header-text: black;
-            }
-            &.cont.card {
-                --clr-bg-header: #d655f6;
-                --clr-header-text: black;
+            @each $type in $types {
+                &.#{$type}.card {
+                    --clr-bg-header: var(--clr-#{$type});
+                }
             }
         }
     }

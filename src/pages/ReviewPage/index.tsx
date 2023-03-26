@@ -1,8 +1,8 @@
 import { DataSnapshot } from 'firebase/database';
-import React, { useState, useEffect, useCallback, useRef, Ref } from 'react'
+import React, { useState, useEffect, useCallback, useRef, Ref, useMemo } from 'react'
 import firebase from "../../firebase";
 import { Badge, Card, Button } from 'react-bootstrap';
-import { EnglishCard } from "../../types";
+import { CardTypeEnum, EnglishCard } from "../../types";
 import { useParams } from 'react-router-dom';
 import ReactMarkdown from 'react-markdown';
 import { Icon } from '@iconify/react';
@@ -77,6 +77,7 @@ const ReviewPage = () => {
     const [update, setUpdate] = useState<number>();
     const [expressions, setExpressions] = useState<Array<any>>([]);
     const params = useParams<{ colId: string }>();
+    const [filter, setFilter] = useState<string | null>(null);
 
     const getItems = (colId: string) => {
         return firebase.utils.fsDatabase.getItems(colId)
@@ -86,6 +87,13 @@ const ReviewPage = () => {
             });
     };
 
+    const filteredItems = useMemo(() => {
+        if (filter === '')
+            return expressions.filter((card: EnglishCard) => !card.cardType);
+        return expressions.filter((card: EnglishCard) => (!filter || card.cardType === filter));
+    }, [expressions, filter]);
+
+
     useEffect(() => {
         getItems(params.colId as string);
         return () => { };
@@ -93,15 +101,37 @@ const ReviewPage = () => {
 
     return (
         <div className='page review-page'>
-            count of items: {expressions.length}
+            <div className='filter-section'>
+                <p>counts: {filteredItems.length}</p>
+                <div>
+                    {
+                        Object.values(CardTypeEnum).map((type, index) => {
+                            return (
+                                <button
+                                    className={`${type} ${type === filter ? 'active' : ''}`}
+                                    onClick={() => setFilter(filter === type ? null : type)}
+                                >
+                                    {type}
+                                </button>
+                            );
+                        })
+                    }
+                    <button
+                        className={`${'' === filter ? 'active' : ''}`}
+                        onClick={() => setFilter(filter === '' ? null : '')} >
+                        Others
+                    </button>
+                </div>
+            </div>
+
             <div className='review-items'>
                 {
-                    expressions.map((value, index) => (
+                    filteredItems.map((value, index) => (
                         <EachEnglishCard key={value.id} item={value} colId={params.colId} getItems={getItems} ></EachEnglishCard>
                     ))
                 }
             </div>
-        </div>
+        </div >
     )
 }
 

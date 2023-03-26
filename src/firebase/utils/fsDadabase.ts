@@ -1,6 +1,7 @@
 import { DocumentData, DocumentReference, DocumentSnapshot } from "@firebase/firestore";
 import firebase from "..";
 import { EnglishCard } from "../../types";
+import { sortCards } from "../../utils/sorting";
 
 export const getCollections = () => {
     const colRef = firebase.fsDbRefs.dataDocRef(firebase.auth.currentUser?.uid as string);
@@ -27,7 +28,7 @@ export const getItems = (colId: string): Promise<Array<EnglishCard>> => {
                 if (doc.id !== firebase.auth.currentUser?.uid)
                     items.push({ id: doc.id, ...doc.data() } as EnglishCard);
             });
-            return items.sort((a, b) => a.reviewedNumber - b.reviewedNumber || b.created_at - a.created_at);
+            return sortCards(items);
         })
 };
 
