@@ -15,6 +15,7 @@ export enum CardTypeEnum {
     idiom = "idiom",
     phrase = "phrase",
     cont = "cont",
+    StanceMarker = 'SM',
 }
 
 export type CardType = `${CardTypeEnum}`;
