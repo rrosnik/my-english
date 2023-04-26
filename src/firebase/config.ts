@@ -6,8 +6,11 @@ import * as rtDatabase from "firebase/database"
 import * as fsDatabase from "firebase/firestore";
 import appConfig from "./config.json";
 
+import * as fbMessaging from 'firebase/messaging';
+
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
+
 
 // Initialize Firebase
 const app = fbApp.initializeApp(appConfig);
@@ -32,6 +35,13 @@ const fsDbRefs = {
 
 
 const auth = fbAuth.getAuth(app);
+
+
+
+
+const msg = fbMessaging.getMessaging(app);
+
+
 
 
 const firebase = {

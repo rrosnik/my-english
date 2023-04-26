@@ -27,6 +27,11 @@ const EachEnglishCard = (props: any) => {
                 getItems(colId);
             });
     }
+
+    const hasImage = (cardInfo: EnglishCard) => {
+        if (cardInfo.imageUrl) return true;
+        return false;
+    }
     return (
         <Card className={`english-card-review ${item.cardType}`} dir={reviewMode ? 'rtl' : 'ltr'}>
             <Card.Header>
@@ -46,6 +51,7 @@ const EachEnglishCard = (props: any) => {
                 <ReactMarkdown>
                     {reviewMode ? item.persian : item.english}
                 </ReactMarkdown>
+                {reviewMode ? hasImage(item) ? <img className="card-image" src={item.imageUrl as string} /> : null : null}
                 <Speaker
                     text={reviewMode ? '' : item.english}
                     lang={reviewMode ? 'fa' : 'en'} />

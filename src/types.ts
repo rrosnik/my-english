@@ -7,7 +7,8 @@ export type EnglishCard = {
     persian: string,
     persianCore: string,
     reviewedNumber: number,
-    cardType?: CardType
+    cardType?: CardType,
+    imageUrl?: string,
 };
 
 export enum CardTypeEnum {

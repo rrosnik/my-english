@@ -66,6 +66,11 @@ $types: word, idiom, phrase, cont, SM, others;
                     border-radius: 0.5rem;
                     padding: 0px 0.5rem 5px;
                 }
+                .card-image {
+                    width: 100%;
+                    aspect-ratio: 3/2;
+                    object-fit: cover;
+                }
             }
             @each $type in $types {
                 &.#{$type}.card {

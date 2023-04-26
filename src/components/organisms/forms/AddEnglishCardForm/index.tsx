@@ -16,7 +16,8 @@ const AddCardVlidationSchema = yup.object({
     englishCore: yup.string().required("The field is required"),
     cardType: yup.mixed()
         .oneOf(Object.values(CardTypeEnum), "the type is incorrect")
-        .required("The type of card should be selected")
+        .required("The type of card should be selected"),
+    imageUrl: yup.string().url("this field should be Image URL").notRequired(),
 });
 const AddEnglishCardForm = (props: any) => {
 
@@ -94,7 +95,8 @@ const AddEnglishCardForm = (props: any) => {
                         persianCore: updatingItem?.persianCore ?? '',
                         english: updatingItem?.english ?? '',
                         englishCore: updatingItem?.englishCore ?? '',
-                        cardType: updatingItem?.cardType ?? ''
+                        cardType: updatingItem?.cardType ?? '',
+                        imageUrl: updatingItem?.imageUrl ?? '',
                     }}
                     onSubmit={(values, { resetForm, setSubmitting }) => {
                         console.log(values)
@@ -118,10 +120,7 @@ const AddEnglishCardForm = (props: any) => {
                         setFieldValue
                         /* and other goodies */
                     }) => (
-                        <form
-                            onKeyDown={(e) => focusOrSubmit(e, errors)}
-                            onSubmit={handleSubmit}
-                        >
+                        <form onSubmit={handleSubmit}>
                             <Row >
                                 <Form.Text className="text-danger">{errors.cardType}</Form.Text>
                                 <div
@@ -145,6 +144,18 @@ const AddEnglishCardForm = (props: any) => {
                                 </div>
                             </Row>
                             <Row>
+                                <InputGroup className="mb-3" hasValidation>
+                                    <InputGroup.Text id="inputGroup-sizing-sm">Image URL</InputGroup.Text>
+                                    <Form.Control
+                                        enterKeyHint='next'
+                                        type="url"
+                                        name="imageUrl"
+                                        onChange={handleChange}
+                                        value={values.imageUrl}
+                                        isInvalid={!!errors.imageUrl && !!touched.imageUrl}
+                                    />
+                                    <Form.Control.Feedback type='invalid'>{errors.imageUrl}</Form.Control.Feedback>
+                                </InputGroup>
                                 <InputGroup className="mb-3" hasValidation>
                                     <Form.Control
                                         enterKeyHint='next'
