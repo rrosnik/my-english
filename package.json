@@ -11,7 +11,7 @@
   "dependencies": {
     "@reduxjs/toolkit": "^1.9.5",
     "bootstrap": "^5.2.3",
-    "firebase": "^9.19.1",
+    "firebase": "^9.22.0",
     "firebase-admin": "^11.5.0",
     "formik": "^2.2.9",
     "localforage": "^1.10.0",
