@@ -11,9 +11,11 @@ import "./index.scss";
 const AddCardVlidationSchema = yup.object({
     id: yup.string().notRequired(),
     persian: yup.string().required("The field is required"),
-    persianCore: yup.string().required("The field is required"),
+    // persianCore: yup.string().required("The field is required"),
+    persianCore: yup.string().optional(),
     english: yup.string().required("The field is required"),
-    englishCore: yup.string().required("The field is required"),
+    // englishCore: yup.string().required("The field is required"),
+    englishCore: yup.string().optional(),
     cardType: yup.mixed()
         .oneOf(Object.values(CardTypeEnum), "the type is incorrect")
         .required("The type of card should be selected"),
