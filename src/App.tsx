@@ -14,18 +14,15 @@ function App() {
     const unsubscribAutListener = apis.auth.alwaysCheckTheUserAuthStatus();
     return () => {
       unsubscribAutListener();
-    }
+    };
   }, []);
 
   if (appStatus === 'initializing') {
-    return <h1>Loading</h1>
+    return <h1>Loading</h1>;
   } else
     return (
       <div className="App">
-        <RouterProvider
-          router={router}
-          fallbackElement={<h1>Loading ...</h1>}
-        />
+        <RouterProvider router={router} fallbackElement={<h1>Loading ...</h1>} />
       </div>
     );
 }

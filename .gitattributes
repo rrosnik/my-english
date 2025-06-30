@@ -1,0 +1,6 @@
+# Always commit with LF, no matter who checks out
+* text=auto eol=lf
+
+# Images, etc. (examples)
+*.png binary
+*.jpg binary

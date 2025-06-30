@@ -1,25 +1,25 @@
-@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap');
 
 .sign-in-page {
-    .container {
-        margin: 50px auto;
-    }
+  .container {
+    margin: 50px auto;
+  }
 
-    .sign-in-pannel {
-        position: relative;
-        max-width: 20rem;
-        margin: 20px auto;
-        border: 1px solid #dddd;
-        border-radius: 18px;
-        overflow: hidden;
-        box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
-    }
+  .sign-in-pannel {
+    position: relative;
+    max-width: 20rem;
+    margin: 20px auto;
+    border: 1px solid #dddd;
+    border-radius: 18px;
+    overflow: hidden;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  }
 
-    .btn.btn-primary {
-        // background-color: transparent;
-        // color: #ee82ee;
-        // border: 0px;
-        // padding: 0;
-        // font-size: 14px;
-    }
+  .btn.btn-primary {
+    // background-color: transparent;
+    // color: #ee82ee;
+    // border: 0px;
+    // padding: 0;
+    // font-size: 14px;
+  }
 }

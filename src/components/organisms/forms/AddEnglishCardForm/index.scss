@@ -1,39 +1,39 @@
 .card-type {
-    display: flex;
-    padding: 0 0 0.75rem 0;
-    justify-content: center;
-    small {
-        flex: 1 1;
+  display: flex;
+  padding: 0 0 0.75rem 0;
+  justify-content: center;
+  small {
+    flex: 1 1;
+  }
+  button {
+    padding: 0.2em 0.8em;
+    border: none;
+    border-inline-end: 1px solid darkgray;
+    flex: 0 0;
+    &:first-of-type {
+      border-start-start-radius: 1rem;
+      border-end-start-radius: 1rem;
     }
+    &:last-of-type {
+      border-end-end-radius: 1rem;
+      border-start-end-radius: 1rem;
+      border-inline-end: none;
+    }
+    &.active {
+      background-color: #0b5aa3;
+      color: white;
+    }
+  }
+  &.is-invalid {
     button {
-        padding: 0.2em 0.8em;
-        border: none;
-        border-inline-end: 1px solid darkgray;
-        flex: 0 0;
-        &:first-of-type {
-            border-start-start-radius: 1rem;
-            border-end-start-radius: 1rem;
-        }
-        &:last-of-type {
-            border-end-end-radius: 1rem;
-            border-start-end-radius: 1rem;
-            border-inline-end: none;
-        }
-        &.active {
-            background-color: #0b5aa3;
-            color: white;
-        }
+      --border: 1px solid red;
+      border-block: var(--border);
+      &:first-of-type {
+        border-inline-start: var(--border);
+      }
+      &:last-of-type {
+        border-inline-end: var(--border);
+      }
     }
-    &.is-invalid {
-        button {
-            --border: 1px solid red;
-            border-block: var(--border);
-            &:first-of-type {
-                border-inline-start: var(--border);
-            }
-            &:last-of-type {
-                border-inline-end: var(--border);
-            }
-        }
-    }
+  }
 }

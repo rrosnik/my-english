@@ -1,10 +1,9 @@
-import { ReducerWithInitialState } from "@reduxjs/toolkit/dist/createReducer";
-import appReducer, { AppStateType } from "./addReducer";
-import userReducer, { UserStateType } from "./userReducer";
+import appReducer from './addReducer';
+import userReducer from './userReducer';
 
 const reducers = {
-    app: appReducer,
-    user: userReducer,
-}
+  app: appReducer,
+  user: userReducer,
+};
 
 export default reducers;

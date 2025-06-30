@@ -1,22 +1,22 @@
 .collections-page {
-    .sets-items {
-        .set-item {
-            cursor: pointer;
-            display: flex;
-            justify-content: space-between;
+  .sets-items {
+    .set-item {
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
 
-            &:hover {
-                background-color: #d9e2ff;
-            }
+      &:hover {
+        background-color: #d9e2ff;
+      }
 
-            .set-name{
-                flex-grow: 1;
-                margin-right: 1rem;
-            }
-            .actions{
-                display: flex;
-                gap: 0.5rem;
-            }
-        }
+      .set-name {
+        flex-grow: 1;
+        margin-right: 1rem;
+      }
+      .actions {
+        display: flex;
+        gap: 0.5rem;
+      }
     }
+  }
 }

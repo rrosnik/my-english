@@ -1,7 +1,7 @@
-import firebase from "./config";
-import utils from "./utils";
+import firebase from './config';
+import utils from './utils';
 
 export default {
-    ...firebase,
-    utils,
-}
+  ...firebase,
+  utils,
+};
