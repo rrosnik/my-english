@@ -1,0 +1,222 @@
+.card-actions-modal {
+  .modal-body {
+    padding: 1.5rem;
+  }
+  
+  .card-details {
+    .content-block {
+      background: #f8f9fa;
+      padding: 1rem;
+      border-radius: 8px;
+      border-left: 4px solid #007bff;
+      
+      .main-text {
+        font-size: 1.2rem;
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+        color: #2c3e50;
+      }
+      
+      .context-text {
+        color: #6c757d;
+        margin-bottom: 0.5rem;
+      }
+      
+      .audio-controls {
+        .speaker {
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          width: 32px;
+          height: 32px;
+          background: #007bff;
+          border-radius: 50%;
+          color: white;
+          cursor: pointer;
+          transition: all 0.3s ease;
+          
+          &:hover {
+            background: #0056b3;
+            transform: scale(1.1);
+          }
+        }
+      }
+    }
+    
+    .card-detail-image {
+      max-width: 100%;
+      max-height: 200px;
+      object-fit: cover;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+    
+    .definition-text {
+      background: #e3f2fd;
+      padding: 1rem;
+      border-radius: 8px;
+      border-left: 4px solid #2196f3;
+      margin: 0;
+    }
+    
+    .word-list {
+      .badge {
+        margin: 0.25rem 0.25rem 0.25rem 0;
+        padding: 0.5rem 0.75rem;
+        font-size: 0.85rem;
+      }
+    }
+    
+    .notes-text {
+      background: #fff3cd;
+      padding: 1rem;
+      border-radius: 8px;
+      border-left: 4px solid #ffc107;
+      margin: 0;
+    }
+  }
+  
+  .examples-section {
+    .example-item {
+      border: none;
+      border-radius: 8px;
+      margin-bottom: 1rem;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      
+      .english-example {
+        font-size: 1.1rem;
+        font-weight: 500;
+        color: #2c3e50;
+        margin-bottom: 0.5rem;
+      }
+      
+      .persian-example {
+        color: #6c757d;
+        font-family: 'Tahoma', 'Arial', sans-serif;
+        margin-bottom: 0.5rem;
+      }
+      
+      .context-badge {
+        font-size: 0.75rem;
+        margin-bottom: 0.5rem;
+      }
+      
+      .example-audio {
+        .speaker {
+          width: 24px;
+          height: 24px;
+          background: #28a745;
+          
+          &:hover {
+            background: #1e7e34;
+          }
+        }
+      }
+    }
+  }
+  
+  .stats-section {
+    .stat-card {
+      background: #f8f9fa;
+      padding: 1rem;
+      border-radius: 8px;
+      text-align: center;
+      margin-bottom: 1rem;
+      border: 1px solid #e9ecef;
+      
+      h6 {
+        color: #6c757d;
+        font-size: 0.85rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin-bottom: 0.5rem;
+      }
+      
+      .stat-value {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: #2c3e50;
+      }
+    }
+    
+    .date-info {
+      h6 {
+        color: #6c757d;
+        font-size: 0.85rem;
+        margin-bottom: 0.25rem;
+      }
+    }
+  }
+  
+  .audio-section {
+    .pronunciation-controls {
+      background: #f8f9fa;
+      padding: 1.5rem;
+      border-radius: 8px;
+      
+      .audio-options {
+        .speaker-controls {
+          display: flex;
+          align-items: center;
+          padding: 0.5rem;
+          background: white;
+          border-radius: 6px;
+          border: 1px solid #e9ecef;
+          
+          .speaker {
+            width: 32px;
+            height: 32px;
+            background: #17a2b8;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            
+            &:hover {
+              background: #138496;
+            }
+            
+            svg {
+              color: white;
+            }
+          }
+        }
+      }
+    }
+    
+    .phonetic-info,
+    .accent-info {
+      background: #e8f5e8;
+      padding: 0.75rem;
+      border-radius: 6px;
+      margin-bottom: 0.5rem;
+      
+      strong {
+        color: #2c3e50;
+      }
+    }
+    
+    .custom-audio {
+      audio {
+        width: 100%;
+        max-width: 300px;
+      }
+    }
+  }
+  
+  .card-preview {
+    background: #f8f9fa;
+    padding: 1rem;
+    border-radius: 8px;
+    border-left: 4px solid #dc3545;
+    margin: 1rem 0;
+  }
+}
+
+// Card type specific colors
+.card-type-word { background-color: var(--clr-word) !important; }
+.card-type-idiom { background-color: var(--clr-idiom) !important; }
+.card-type-phrase { background-color: var(--clr-phrase) !important; }
+.card-type-sentence { background-color: var(--clr-cont) !important; }
+.card-type-grammar { background-color: var(--clr-SM) !important; }

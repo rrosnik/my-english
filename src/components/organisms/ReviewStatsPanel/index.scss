@@ -1,0 +1,148 @@
+.review-stats-panel {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  border: none;
+  border-radius: 12px;
+  
+  .card-header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border-radius: 12px 12px 0 0;
+    font-weight: 600;
+    
+    svg {
+      width: 20px;
+      height: 20px;
+    }
+  }
+  
+  .card-body {
+    padding: 1.5rem;
+  }
+  
+  .stat-item {
+    padding: 0.5rem;
+    
+    .stat-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 0.5rem;
+      
+      &.studied {
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        color: white;
+      }
+      
+      &.accuracy {
+        background: linear-gradient(135deg, #ffecd2, #fcb69f);
+        color: #d84315;
+      }
+      
+      &.correct {
+        background: linear-gradient(135deg, #a8edea, #fed6e3);
+        color: #2e7d32;
+      }
+      
+      &.incorrect {
+        background: linear-gradient(135deg, #ffc3a0, #ffafbd);
+        color: #c62828;
+      }
+      
+      svg {
+        width: 20px;
+        height: 20px;
+      }
+    }
+    
+    .stat-value {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 0.25rem;
+    }
+    
+    .stat-label {
+      font-size: 0.8rem;
+      color: #6c757d;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+  }
+  
+  .accuracy-bar {
+    .progress {
+      height: 8px;
+      border-radius: 4px;
+      background-color: #e9ecef;
+    }
+  }
+  
+  .time-stats {
+    border-top: 1px solid #e9ecef;
+    padding-top: 1rem;
+    
+    .time-item {
+      .time-icon {
+        width: 24px;
+        height: 24px;
+        color: #6c757d;
+        margin-bottom: 0.25rem;
+      }
+      
+      .time-value {
+        font-size: 1.1rem;
+        font-weight: 600;
+        color: #495057;
+        margin-bottom: 0.25rem;
+      }
+      
+      .time-label {
+        font-size: 0.75rem;
+        color: #6c757d;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+    }
+  }
+  
+  .empty-state {
+    padding: 1rem 0;
+    
+    p {
+      font-size: 0.9rem;
+    }
+  }
+}
+
+// Responsive adjustments
+@media (max-width: 768px) {
+  .review-stats-panel {
+    .card-body {
+      padding: 1rem;
+    }
+    
+    .stat-item {
+      padding: 0.25rem;
+      
+      .stat-icon {
+        width: 32px;
+        height: 32px;
+        
+        svg {
+          width: 16px;
+          height: 16px;
+        }
+      }
+      
+      .stat-value {
+        font-size: 1.2rem;
+      }
+      
+      .stat-label {
+        font-size: 0.7rem;
+      }
+    }
+  }
+}

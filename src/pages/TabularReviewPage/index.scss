@@ -1,0 +1,65 @@
+.tabular-review-page {
+  .review-table {
+    font-size: 0.9rem;
+    
+    .card-row {
+      transition: all 0.3s ease;
+      
+      &:hover {
+        background-color: rgba(0, 123, 255, 0.1);
+      }
+      
+      &.revealed {
+        background-color: rgba(40, 167, 69, 0.1);
+      }
+    }
+    
+    .question-cell {
+      .english-text {
+        font-weight: 500;
+        margin-bottom: 0.25rem;
+      }
+    }
+    
+    .answer-cell {
+      .persian-text {
+        font-weight: 500;
+        margin-bottom: 0.25rem;
+        font-family: 'Tahoma', sans-serif;
+      }
+      
+      .confidence-buttons {
+        .btn-group {
+          .btn {
+            padding: 0.25rem 0.5rem;
+            font-size: 0.75rem;
+            min-width: 32px;
+          }
+        }
+      }
+    }
+    
+    // Card type badges
+    .card-type-word { background-color: var(--clr-word) !important; }
+    .card-type-idiom { background-color: var(--clr-idiom) !important; }
+    .card-type-phrase { background-color: var(--clr-phrase) !important; }
+    .card-type-sentence { background-color: var(--clr-cont) !important; }
+    .card-type-grammar { background-color: var(--clr-SM) !important; }
+  }
+}
+
+// Responsive design
+@media (max-width: 768px) {
+  .tabular-review-page {
+    .table-responsive {
+      font-size: 0.8rem;
+    }
+    
+    .question-cell,
+    .answer-cell {
+      max-width: 150px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
+}

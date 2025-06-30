@@ -9,6 +9,8 @@ const SignupPage = React.lazy(() => import('../pages/SignupPage'));
 const CollectionPage = React.lazy(() => import('../pages/CollectionPage'));
 const InsertPage = React.lazy(() => import('../pages/InsertPage'));
 const ReviewPage = React.lazy(() => import('../pages/ReviewPage'));
+const TabularReviewPage = React.lazy(() => import('../pages/TabularReviewPage'));
+const CardByCardReviewPage = React.lazy(() => import('../pages/CardByCardReviewPage'));
 
 const router = createBrowserRouter([
   { path: '/sign-in', element: <LoginPage /> },
@@ -21,6 +23,8 @@ const router = createBrowserRouter([
       { path: '/collections', element: <CollectionPage /> },
       { path: '/:colId/insert', element: <InsertPage /> },
       { path: '/:colId/review', element: <ReviewPage /> },
+      { path: '/:colId/review/table', element: <TabularReviewPage /> },
+      { path: '/:colId/review/cards', element: <CardByCardReviewPage /> },
       { path: '*', element: <Navigate to="collections" /> },
     ],
   },

@@ -1,0 +1,279 @@
+.card-review-page {
+  .review-card {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    border: none;
+    border-radius: 12px;
+    transition: all 0.3s ease;
+    min-height: 400px;
+    
+    &.hidden {
+      .card-body {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+      }
+    }
+    
+    &.revealed {
+      .card-body {
+        background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        color: white;
+      }
+    }
+    
+    .card-header {
+      background: rgba(255, 255, 255, 0.95);
+      border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+      
+      .card-actions {
+        .btn {
+          border: none;
+          background: transparent;
+          
+          &:hover {
+            background: rgba(0, 0, 0, 0.1);
+          }
+        }
+      }
+    }
+    
+    .card-body {
+      padding: 2rem;
+      
+      .question-section {
+        .english-text {
+          font-size: 1.8rem;
+          font-weight: 600;
+          margin-bottom: 0.5rem;
+          text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+        }
+        
+        .english-context {
+          font-size: 1.1rem;
+          opacity: 0.9;
+        }
+        
+        .audio-section {
+          .speaker {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 48px;
+            height: 48px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            transition: all 0.3s ease;
+            
+            &:hover {
+              background: rgba(255, 255, 255, 0.3);
+              transform: scale(1.1);
+            }
+            
+            svg {
+              color: white;
+              width: 24px;
+              height: 24px;
+            }
+          }
+        }
+      }
+      
+      .answer-section {
+        .persian-text {
+          font-size: 1.6rem;
+          font-weight: 600;
+          margin-bottom: 0.5rem;
+          font-family: 'Tahoma', 'Arial', sans-serif;
+          text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+        }
+        
+        .persian-context {
+          font-size: 1.1rem;
+          opacity: 0.9;
+          font-family: 'Tahoma', 'Arial', sans-serif;
+        }
+        
+        .image-section {
+          .card-image {
+            max-width: 300px;
+            max-height: 200px;
+            object-fit: cover;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+          }
+        }
+        
+        .confidence-section {
+          h6 {
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 1rem;
+          }
+          
+          .confidence-buttons {
+            .btn {
+              padding: 0.75rem 1rem;
+              margin: 0 0.25rem;
+              border: 2px solid rgba(255, 255, 255, 0.3);
+              background: rgba(255, 255, 255, 0.1);
+              color: white;
+              transition: all 0.3s ease;
+              
+              &:hover {
+                background: rgba(255, 255, 255, 0.2);
+                border-color: rgba(255, 255, 255, 0.5);
+                transform: translateY(-2px);
+              }
+              
+              .confidence-option {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                
+                strong {
+                  font-size: 1.2rem;
+                  margin-bottom: 0.25rem;
+                }
+                
+                small {
+                  font-size: 0.75rem;
+                  opacity: 0.8;
+                }
+              }
+            }
+          }
+        }
+        
+        .response-feedback {
+          .badge {
+            padding: 0.5rem 1rem;
+            font-size: 0.9rem;
+          }
+        }
+      }
+      
+      .reveal-section {
+        .btn {
+          padding: 1rem 2rem;
+          font-size: 1.2rem;
+          border: 2px solid rgba(255, 255, 255, 0.3);
+          background: rgba(255, 255, 255, 0.1);
+          color: white;
+          transition: all 0.3s ease;
+          
+          &:hover {
+            background: rgba(255, 255, 255, 0.2);
+            border-color: rgba(255, 255, 255, 0.5);
+            transform: scale(1.05);
+          }
+        }
+      }
+    }
+    
+    .card-footer {
+      background: rgba(255, 255, 255, 0.95);
+      border-top: 1px solid rgba(0, 0, 0, 0.1);
+      
+      .middle-actions {
+        .btn {
+          margin: 0 0.25rem;
+        }
+      }
+    }
+    
+    // Card type specific styles
+    &.word { border-left: 4px solid var(--clr-word); }
+    &.idiom { border-left: 4px solid var(--clr-idiom); }
+    &.phrase { border-left: 4px solid var(--clr-phrase); }
+    &.sentence { border-left: 4px solid var(--clr-cont); }
+    &.grammar { border-left: 4px solid var(--clr-SM); }
+  }
+  
+  .review-complete-card {
+    max-width: 500px;
+    margin: 0 auto;
+    text-align: center;
+    border: none;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    border-radius: 12px;
+    
+    .card-body {
+      padding: 3rem 2rem;
+    }
+  }
+}
+
+// Card type badges
+.card-type-word { background-color: var(--clr-word) !important; }
+.card-type-idiom { background-color: var(--clr-idiom) !important; }
+.card-type-phrase { background-color: var(--clr-phrase) !important; }
+.card-type-sentence { background-color: var(--clr-cont) !important; }
+.card-type-grammar { background-color: var(--clr-SM) !important; }
+
+// Responsive design
+@media (max-width: 768px) {
+  .card-review-page {
+    .review-card {
+      .card-body {
+        padding: 1.5rem;
+        
+        .question-section {
+          .english-text {
+            font-size: 1.4rem;
+          }
+          
+          .english-context {
+            font-size: 1rem;
+          }
+        }
+        
+        .answer-section {
+          .persian-text {
+            font-size: 1.3rem;
+          }
+          
+          .persian-context {
+            font-size: 1rem;
+          }
+          
+          .confidence-section {
+            .confidence-buttons {
+              .btn {
+                padding: 0.5rem 0.75rem;
+                margin: 0 0.1rem;
+                
+                .confidence-option {
+                  strong {
+                    font-size: 1rem;
+                  }
+                  
+                  small {
+                    font-size: 0.7rem;
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 576px) {
+  .card-review-page {
+    .review-card {
+      .answer-section {
+        .confidence-section {
+          .confidence-buttons {
+            flex-direction: column;
+            gap: 0.5rem;
+            
+            .btn {
+              width: 100%;
+              margin: 0;
+            }
+          }
+        }
+      }
+    }
+  }
+}
