@@ -425,3 +425,101 @@ This represents a fully populated card with all metadata for optimal learning ex
     },
   },
 };
+
+// New story demonstrating URL extraction feature
+export const UrlExtractionDemo: Story = {
+  args: {
+    setName: 'vocabulary-cards',
+    onUpdate: mockOnUpdate,
+    onClose: mockOnClose,
+  },
+  parameters: {
+    docs: {
+      description: {
+        story: `
+**URL Extraction Feature Demo**
+
+This story demonstrates the new URL extraction feature that allows users to automatically populate card data from dictionary websites:
+
+**How to Use:**
+1. Click the "Import from URL" button in the form header
+2. Paste a URL from a supported dictionary website
+3. Click "Extract" to automatically fill the form fields
+
+**Supported Dictionary Sites:**
+- Cambridge Dictionary (dictionary.cambridge.org)
+- Oxford Dictionary (oxford.com)
+- Merriam-Webster (merriam-webster.com)
+- Collins Dictionary (collinsdictionary.com)
+- Longman Dictionary (ldoceonline.com)
+- Vocabulary.com
+- Dictionary.com
+- Macmillan Dictionary
+
+**Example URLs to try:**
+- https://dictionary.cambridge.org/dictionary/english/serendipity
+- https://www.merriam-webster.com/dictionary/ubiquitous
+- https://www.vocabulary.com/dictionary/ephemeral
+
+**Extracted Data Includes:**
+- Word/phrase and definition
+- Part of speech
+- Usage examples
+- Synonyms and antonyms (when available)
+- Pronunciation information
+- Difficulty level indicators
+
+**Note:** Persian translations need to be added manually after extraction.
+        `,
+      },
+    },
+  },
+};
+
+// Story showing the standalone URL extractor component
+export const StandaloneUrlExtractor: Story = {
+  render: () => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const [extractedData] = React.useState<any>(null);
+
+    return (
+      <div>
+        <h5>Standalone URL Extractor</h5>
+        <p>This shows the URL extractor component in standalone mode:</p>
+
+        {/* Import the UrlExtractor component here when using */}
+        <div className="border rounded p-3">
+          <p className="text-muted">The UrlExtractor component would be rendered here in a real implementation. It provides a clean interface for extracting dictionary data from URLs.</p>
+          {extractedData && (
+            <div className="mt-3">
+              <h6>Extracted Data:</h6>
+              <pre>{JSON.stringify(extractedData, null, 2)}</pre>
+            </div>
+          )}
+        </div>
+      </div>
+    );
+  },
+  parameters: {
+    docs: {
+      description: {
+        story: `
+**Standalone URL Extractor Component**
+
+The URL extractor can also be used as a standalone component outside of the form context. This is useful for:
+
+- Batch importing multiple words
+- Testing URL extraction
+- Integration with other forms or workflows
+- Preview functionality
+
+The component provides a clean, modal-based interface with:
+- URL validation
+- Real-time extraction feedback
+- Support site information
+- Usage tips and guidelines
+        `,
+      },
+    },
+  },
+};

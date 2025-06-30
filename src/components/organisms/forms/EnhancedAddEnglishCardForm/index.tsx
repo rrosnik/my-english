@@ -6,6 +6,7 @@ import * as yup from 'yup';
 import firebase from '../../../../firebase';
 import { EnglishCard, CardFormData, CardTypeEnum, DifficultyLevel, PartOfSpeech, LearningStatus, UsageExample } from '../../../../types';
 import Speaker from '../../../molecules/Speaker';
+import UrlExtractor from '../../UrlExtractor';
 import './index.scss';
 
 interface EnhancedCardFormProps {
@@ -32,6 +33,8 @@ const EnhancedAddEnglishCardForm: React.FC<EnhancedCardFormProps> = ({ setName, 
   const [usageExamples, setUsageExamples] = useState<UsageExample[]>(updatingItem?.usageExamples || [{ example: '', translation: '' }]);
   const [synonyms, setSynonyms] = useState<string[]>(updatingItem?.synonyms || ['']);
   const [antonyms, setAntonyms] = useState<string[]>(updatingItem?.antonyms || ['']);
+  const [showUrlExtractor, setShowUrlExtractor] = useState(false);
+  const [extractedData, setExtractedData] = useState<CardFormData | null>(null);
 
   const addToExpressions = (data: CardFormData) => {
     const now = Date.now();
@@ -118,30 +121,39 @@ const EnhancedAddEnglishCardForm: React.FC<EnhancedCardFormProps> = ({ setName, 
       <Card.Header>
         <div className="d-flex justify-content-between align-items-center">
           <h5 className="mb-0">{updatingItem?.id ? 'Update Card' : 'Add New Card'}</h5>
-          {onClose && (
-            <Button variant="outline-secondary" size="sm" onClick={onClose}>
-              <Icon icon="mdi:close" />
-            </Button>
-          )}
+          <div className="d-flex gap-2">
+            {!updatingItem?.id && (
+              <Button variant="outline-primary" size="sm" onClick={() => setShowUrlExtractor(true)} title="Extract from Dictionary URL">
+                <Icon icon="mdi:web" className="me-1" />
+                Import from URL
+              </Button>
+            )}
+            {onClose && (
+              <Button variant="outline-secondary" size="sm" onClick={onClose}>
+                <Icon icon="mdi:close" />
+              </Button>
+            )}
+          </div>
         </div>
       </Card.Header>
 
       <Card.Body>
         <Formik
           initialValues={{
-            english: updatingItem?.english || '',
-            englishCore: updatingItem?.englishCore || '',
-            persian: updatingItem?.persian || '',
-            persianCore: updatingItem?.persianCore || '',
-            cardType: updatingItem?.cardType || CardTypeEnum.WORD,
-            partOfSpeech: updatingItem?.partOfSpeech || PartOfSpeech.NOUN,
-            imageUrl: updatingItem?.imageUrl || '',
-            definition: updatingItem?.definition || '',
-            notes: updatingItem?.notes || '',
-            mnemonics: updatingItem?.mnemonics || '',
-            level: updatingItem?.tags?.level || DifficultyLevel.BEGINNER,
-            topics: updatingItem?.tags?.topics?.join(', ') || '',
+            english: extractedData?.english || updatingItem?.english || '',
+            englishCore: extractedData?.englishCore || updatingItem?.englishCore || '',
+            persian: extractedData?.persian || updatingItem?.persian || '',
+            persianCore: extractedData?.persianCore || updatingItem?.persianCore || '',
+            cardType: extractedData?.cardType || updatingItem?.cardType || CardTypeEnum.WORD,
+            partOfSpeech: extractedData?.partOfSpeech || updatingItem?.partOfSpeech || PartOfSpeech.NOUN,
+            imageUrl: extractedData?.imageUrl || updatingItem?.imageUrl || '',
+            definition: extractedData?.definition || updatingItem?.definition || '',
+            notes: extractedData?.notes || updatingItem?.notes || '',
+            mnemonics: extractedData?.mnemonics || updatingItem?.mnemonics || '',
+            level: extractedData?.tags?.level || updatingItem?.tags?.level || DifficultyLevel.BEGINNER,
+            topics: extractedData?.tags?.topics?.join(', ') || updatingItem?.tags?.topics?.join(', ') || '',
           }}
+          enableReinitialize={true}
           onSubmit={(values, { resetForm, setSubmitting }) => {
             const cardData: CardFormData = {
               ...values,
@@ -447,6 +459,26 @@ const EnhancedAddEnglishCardForm: React.FC<EnhancedCardFormProps> = ({ setName, 
           )}
         </Formik>
       </Card.Body>
+
+      {/* URL Extractor Modal */}
+      <UrlExtractor
+        show={showUrlExtractor}
+        onClose={() => setShowUrlExtractor(false)}
+        onDataExtracted={(data) => {
+          setExtractedData(data);
+          if (data.usageExamples?.length) {
+            setUsageExamples(data.usageExamples);
+          }
+          if (data.synonyms?.length) {
+            setSynonyms(data.synonyms);
+          }
+          if (data.antonyms?.length) {
+            setAntonyms(data.antonyms);
+          }
+          setShowUrlExtractor(false);
+        }}
+        autoDetectCardType={true}
+      />
     </Card>
   );
 };
