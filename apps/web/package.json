@@ -1,0 +1,25 @@
+{
+  "name": "myglish-web-app",
+  "version": "0.0.1",
+  "private": true,
+  "description": "Myglish web application",
+  "main": "./dist/index.js",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "scripts": {
+    "start": "nx serve web",
+    "build": "nx build web",
+    "serve": "nx serve web",
+    "test": "nx test web",
+    "lint": "nx lint web",
+    "storybook": "nx storybook web",
+    "build-storybook": "nx build-storybook web"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+}
+}

@@ -1,0 +1,20 @@
+{
+  "name": "myglish-server",
+  "version": "0.0.1",
+  "private": true,
+  "description": "Myglish server application",
+  "main": "./dist/apps/server/main.cjs",
+  "scripts": {
+    "start": "node dist/apps/server/main.cjs",
+    "build": "nx build server",
+    "dev:server-watch": "nx build-watch server",
+    "test": "nx test server"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.21.2"
+  }
+}

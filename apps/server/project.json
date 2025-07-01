@@ -1,0 +1,54 @@
+{
+  "name": "server",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/server/src",
+  "projectType": "application",
+  "tags": [],
+  "targets": {
+    "build": {
+      "executor": "@nx/vite:build",
+      "outputs": ["{options.outputPath}"],
+      "defaultConfiguration": "production",
+      "options": {
+        "outputPath": "dist/apps/server"
+      },
+      "configurations": {
+        "development": {
+          "mode": "development"
+        },
+        "production": {
+          "mode": "production"
+        }
+      }
+    },
+    "test": {
+      "options": {
+        "passWithNoTests": true
+      }
+    },
+    "build-watch": {
+      "executor": "@nx/vite:build",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/apps/server",
+        "mode": "development",
+        "watch": true
+      }
+    },
+    "serve-built": {
+      "executor": "nx:run-commands",
+      "dependsOn": ["build"],
+      "options": {
+        "command": "node dist/apps/server/main.cjs",
+        "cwd": "{workspaceRoot}"
+      }
+    },
+    "dev-built": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "concurrently \"nx build-watch server\" \"nodemon --watch dist/apps/server dist/apps/server/main.cjs\"",
+        "cwd": "{workspaceRoot}"
+      }
+    }
+  }
+}
